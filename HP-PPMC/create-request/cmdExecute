@@ -1,0 +1,4 @@
+ksc_comment <font color="FFFFFF">
+ksc_local_exec sqlplus ppmc1/ppmc1@orcl @[SCRIPT_NAME]
+ksc_local_exec rm [SCRIPT_NAME]
+ksc_comment </font>

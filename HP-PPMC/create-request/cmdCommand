@@ -1,0 +1,146 @@
+ksc_comment <font color="FFFFFF">	
+ksc_set SCRIPT_NAME="[AS.PKG_TRANSFER_PATH]REQ_[REQ.REQUEST_ID]_[SYS.UNIQUE_IDENTIFIER].sql"	
+ksc_begin_script [SCRIPT_NAME]	
+whenever sqlerror exit failure	
+set serveroutput on size unlimited	
+variable retcode number	
+variable source_request_id number	
+variable description       varchar2(240)	
+variable current_user      varchar2(200)	
+declare	
+  v_Return            	number;	
+  P_PARENT_REQUEST_ID 	NUMBER;	
+  P_REQUEST_HANDLE	BETEO_KCRT_UTIL.T_REQUEST_HANDLE;	
+  P_CREATED_USERNAME 	VARCHAR2(200);	
+  P_LAST_UPDATED_USERNAME VARCHAR2(200);	
+  P_REQUEST_TYPE_NAME 	VARCHAR2(80);	
+  P_REQUEST_SUBTYPE_NAME VARCHAR2(80);	
+  P_DESCRIPTION 	VARCHAR2(400);	
+  P_STATUS_NAME 	VARCHAR2(80);	
+  P_WORKFLOW_NAME 	VARCHAR2(80);	
+  P_DEPARTMENT_NAME 	VARCHAR2(80);	
+  P_PRIORITY_NAME 	VARCHAR2(80);	
+  P_APPLICATION 	VARCHAR2(30);	
+  P_ASSIGNED_TO_USERNAME VARCHAR2(200);	
+  P_ASSIGNED_TO_GROUP_NAME VARCHAR2(30);	
+  P_PROJECT_CODE 	VARCHAR2(30);	
+  P_CONTACT_FIRST_NAME 	VARCHAR2(30);	
+  P_CONTACT_LAST_NAME 	VARCHAR2(30);	
+  P_COMPANY 		VARCHAR2(30);	
+  P_NOTES 		VARCHAR2(200);	
+  P_BATCH_NUMBER NUMBER;	
+  P_PARAMETER1 VARCHAR2(200);	
+  P_VISIBLE_PARAMETER1 VARCHAR2(200);	
+  P_PARAMETER2 VARCHAR2(200);	
+  P_VISIBLE_PARAMETER2 VARCHAR2(200);	
+  P_PARAMETER3 VARCHAR2(200);	
+  P_VISIBLE_PARAMETER3 VARCHAR2(200);	
+  P_PARAMETER4 VARCHAR2(200);	
+  P_VISIBLE_PARAMETER4 VARCHAR2(200);	
+  P_PARAMETER5 VARCHAR2(200);	
+  P_VISIBLE_PARAMETER5 VARCHAR2(200);	
+	
+BEGIN	
+  :retcode := 0;	
+  P_PARENT_REQUEST_ID := [REQ.REQUEST_ID];	
+  P_REQUEST_HANDLE := BETEO_KCRT_UTIL.CREATE_MT_REQUEST(	
+    					P_PARENT_REQUEST_ID => [REQ.REQUEST_ID]	
+  						);	
+  IF (BETEO_KCRT_UTIL.IS_HANDLE_VALID(P_REQUEST_HANDLE)) THEN	
+	DBMS_OUTPUT.PUT_LINE('<!--HTML--><font color="green">Request Handler ' || P_REQUEST_HANDLE.request_id || ' angelegt</font>');	
+        :retcode:=0;	
+	-- start creating header information	
+ 	-- first define needed entries	
+	P_CREATED_USERNAME := 'admin';	
+  	P_LAST_UPDATED_USERNAME := 'admin';	
+  	P_REQUEST_TYPE_NAME := '[REQ_TYPE_NAME]';	
+  	P_REQUEST_SUBTYPE_NAME := NULL;	
+  	P_DESCRIPTION := '[REQ.DESCRIPTION]';	
+  	P_STATUS_NAME := 'Not Submitted';	
+  	P_WORKFLOW_NAME := '[WFL_TYPE_NAME]';	
+  	P_DEPARTMENT_NAME := NULL;	
+  	P_PRIORITY_NAME := NULL;	
+  	P_APPLICATION := NULL;	
+  	P_ASSIGNED_TO_USERNAME := '[REQ.ASSIGNED_TO_USERNAME]';	
+  	P_ASSIGNED_TO_GROUP_NAME := NULL;	
+  	P_PROJECT_CODE := NULL;	
+  	P_CONTACT_FIRST_NAME := NULL;	
+  	P_CONTACT_LAST_NAME := NULL;	
+  	P_COMPANY := NULL;	
+  	P_NOTES := NULL;	
+	-- Set Header Fields	
+  	v_Return := BETEO_KCRT_UTIL.SET_HEADER_FIELDS(	
+    		P_REQUEST_HANDLE => P_REQUEST_HANDLE,	
+    		P_CREATED_USERNAME => P_CREATED_USERNAME,	
+    		P_LAST_UPDATED_USERNAME => P_LAST_UPDATED_USERNAME,	
+    		P_REQUEST_TYPE_NAME => P_REQUEST_TYPE_NAME,	
+    		P_REQUEST_SUBTYPE_NAME => P_REQUEST_SUBTYPE_NAME,	
+    		P_DESCRIPTION => P_DESCRIPTION,	
+    		P_STATUS_NAME => P_STATUS_NAME,	
+    		P_WORKFLOW_NAME => P_WORKFLOW_NAME,	
+    		P_DEPARTMENT_NAME => P_DEPARTMENT_NAME,	
+    		P_PRIORITY_NAME => P_PRIORITY_NAME,	
+    		P_APPLICATION => P_APPLICATION,	
+    		P_ASSIGNED_TO_USERNAME => P_ASSIGNED_TO_USERNAME,	
+    		P_ASSIGNED_TO_GROUP_NAME => P_ASSIGNED_TO_GROUP_NAME,	
+    		P_PROJECT_CODE => P_PROJECT_CODE,	
+    		P_CONTACT_FIRST_NAME => P_CONTACT_FIRST_NAME,	
+    		P_CONTACT_LAST_NAME => P_CONTACT_LAST_NAME,	
+    		P_COMPANY => P_COMPANY,	
+    		P_NOTES => P_NOTES  );	
+	IF (v_Return=0) THEN	
+		:retcode:=0;	
+		DBMS_OUTPUT.PUT_LINE('<!--HTML--><font color="green">Request Header angelegt</font>');	
+		-- start creating detail information	
+	 	-- first define needed entries	
+  		P_BATCH_NUMBER := 1;	
+  		P_PARAMETER1 := NULL;	
+  		P_VISIBLE_PARAMETER1 := NULL;	
+  		P_PARAMETER2 := NULL;	
+  		P_VISIBLE_PARAMETER2 := NULL;	
+  		P_PARAMETER3 := NULL;	
+  		P_VISIBLE_PARAMETER3 := NULL;	
+  		P_PARAMETER4 := NULL;	
+  		P_VISIBLE_PARAMETER4 := NULL;	
+  		P_PARAMETER5 := NULL;	
+  		P_VISIBLE_PARAMETER5 := NULL;	
+		v_Return := BETEO_KCRT_UTIL.SET_DETAIL_FIELDS(	
+    			P_REQUEST_HANDLE => P_REQUEST_HANDLE,	
+    			P_BATCH_NUMBER => P_BATCH_NUMBER,	
+    			P_PARAMETER1 => P_PARAMETER1,	
+    			P_VISIBLE_PARAMETER1 => P_VISIBLE_PARAMETER1,	
+    			P_PARAMETER2 => P_PARAMETER2,	
+    			P_VISIBLE_PARAMETER2 => P_VISIBLE_PARAMETER2,	
+    			P_PARAMETER3 => P_PARAMETER3,	
+    			P_VISIBLE_PARAMETER3 => P_VISIBLE_PARAMETER3,	
+    			P_PARAMETER4 => P_PARAMETER4,	
+    			P_VISIBLE_PARAMETER4 => P_VISIBLE_PARAMETER4,	
+    			P_PARAMETER5 => P_PARAMETER5,	
+    			P_VISIBLE_PARAMETER5 => P_VISIBLE_PARAMETER5);	
+		IF (v_Return=0) THEN	
+			:retcode:=0;	
+			DBMS_OUTPUT.PUT_LINE('<!--HTML--><font color="green">Request Detail angelegt</font>');	
+			-- submit the request				
+			v_Return := BETEO_KCRT_UTIL.SUBMIT_REQUEST(	
+    				P_REQUEST_HANDLE => P_REQUEST_HANDLE	
+  				);	
+			IF (v_Return=0) THEN	
+				:retcode:=0;	
+				DBMS_OUTPUT.PUT_LINE('<!--HTML--><font color="green">Request submitted</font>');	
+			ELSE	
+				:retcode:=1;	
+			END IF;	
+		ELSE	
+			:retcode:=1;	
+		END IF;	
+	ELSE	
+		:retcode:=1;	
+	END IF;	
+END IF;	
+end;	
+/	
+show errors	
+exit :retcode	
+ksc_end_script	
+ksc_comment </font>		
+ksc_local_exec sh -c "cd bin;./kRunCacheManager.sh 9"	
