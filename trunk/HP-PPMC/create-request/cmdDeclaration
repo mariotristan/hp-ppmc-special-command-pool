@@ -1,0 +1,5 @@
+ksc_comment <font color="green">
+ksc_comment PARENT_REQUEST_ID=[PARENT_REQUEST_ID]
+ksc_comment DESCRIPTION=[DESCRIPTION]
+ksc_comment REQ_TYPE_NAME=[REQ_TYPE_NAME]
+ksc_comment WFL_TYPE_NAME=[WFL_TYPE_NAME]
