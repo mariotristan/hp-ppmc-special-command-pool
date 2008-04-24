@@ -1,5 +1,25 @@
 ksc_comment <font color="green">
-ksc_comment PARENT_REQUEST_ID=[PARENT_REQUEST_ID]
+ksc_comment SOURCE_REQUEST_ID=[SOURCE_REQUEST_ID]
 ksc_comment DESCRIPTION=[DESCRIPTION]
 ksc_comment REQ_TYPE_NAME=[REQ_TYPE_NAME]
 ksc_comment WFL_TYPE_NAME=[WFL_TYPE_NAME]
+ksc_comment RELA=[RELA]
+ksc_comment PARA1=[PARA1]
+ksc_comment PARA2=[PARA2]
+ksc_comment PARA3=[PARA3]
+ksc_set PARA4='RISK'
+ksc_comment PARA5=[PARA5]
+ksc_comment PARA7=[PARA7]
+ksc_set PARA41="[DESCRIPTION]"
+ksc_comment PARA41=[PARA41]
+ksc_comment PARA42=[PARA42]
+ksc_comment VPARA1=[VPARA1]
+ksc_comment VPARA2=[VPARA2]
+ksc_comment VPARA3=[VPARA3]
+ksc_set VPARA4='RISK'
+ksc_comment VPARA5=[VPARA5]
+ksc_comment VPARA7=[VPARA7]
+ksc_set VPARA41="[DESCRIPTION]"
+ksc_comment VPARA41=[VPARA41]
+ksc_comment VPARA42=[VPARA42]
+ksc_comment </font>
