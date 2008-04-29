@@ -1,0 +1,96 @@
+ksc_comment <font color="FFFFFF">
+ksc_begin_script [SCRIPT]
+whenever sqlerror exit failure
+set serveroutput on size unlimited
+variable retcode number
+DECLARE
+  -- declaration of all parameter
+  P_REQUEST_ID NUMBER;
+  P_USERNAME VARCHAR2(200);
+  P_FROM_STEP_NUMBER VARCHAR2(30);
+  P_FROM_STEP_NAME VARCHAR2(80);
+  P_TO_STEP_NUMBER VARCHAR2(30);
+  P_TO_STEP_NAME VARCHAR2(80);
+  P_VISIBLE_RESULT_VALUE VARCHAR2(200);
+  P_USER_COMMENT VARCHAR2(200);
+  P_NOTE VARCHAR2(4000);
+  -- used as return container
+  v_Return NUMBER;
+  P_SOURCE_ID NUMBER;
+  P_REQUEST_TYPE VARCHAR2(200);
+BEGIN
+  -- initialize return code
+  :retcode:=0;
+  -- initialization of needed variables
+  P_SOURCE_ID:=[REQUESTID];
+  P_REQUEST_TYPE:='[REQUEST_TYPE]';
+  -- detect the references for the given request id - the selection is filtered by the reference request type
+  FOR REQ IN (select	ref.parameter1 as zeiger
+			from knta_references ref , kcrt_requests_v req
+			where ref.parameter1=req.request_id
+  			and (ref.target_type_code=20 and req.request_type_name in (select description from knta_lookups lok
+											where lookup_type='eFinPM-PPMC-Global-Parameter'
+											and lookup_code='PMO_ACTION_REQUEST'))
+  			and ref.source_entity_id=20
+			and ref.source_id=P_SOURCE_ID
+                        and ref.parameter1 in (select reqs.request_id from kcrt_requests_v reqs where reqs.request_id=ref.parameter1 AND status_code='IN_PROGRESS')
+	)
+ LOOP
+  -- start the command since all requests done
+  :retcode:=0;
+  -- initialization of needed variables 
+  P_REQUEST_ID := REQ.zeiger;
+  P_USERNAME :='[USERNAME]';
+  DBMS_OUTPUT.PUT_LINE('<font color="green">Die Workflow-Step-ID von Request '|| P_REQUEST_ID ||' wird gesucht.</font>');
+  -- find the step number of the referenced request
+  select wfl.sort_order INTO P_FROM_STEP_NUMBER
+	from knta_pending_workflow_steps_v pend, kwfl_workflow_steps_v wfl
+	where pend.workflow_step_id=wfl.workflow_step_id
+  	and pend.instance_source_set_id=REQ.zeiger;
+  DBMS_OUTPUT.PUT_LINE('<font color="green">Der Request '|| P_REQUEST_ID ||' befindet sich in Step '||P_FROM_STEP_NUMBER||'</font>');
+  -- initialization of needed variables
+  P_FROM_STEP_NAME :=NULL;
+  P_FROM_STEP_NUMBER := P_FROM_STEP_NUMBER;
+  P_TO_STEP_NUMBER := '[WORKFLOW_STEP_ID_TARGET]';
+  P_TO_STEP_NAME := NULL;
+  P_VISIBLE_RESULT_VALUE := 'Succeeded';
+  P_USER_COMMENT := NULL;
+  P_NOTE := '[NOTE]';
+  -- store note to the concerned request
+  v_Return := BETEO_KCRT_UTIL.ADD_NOTE_TO_REQUEST(P_REQUEST_ID, '[SYS.USERNAME]', P_NOTE);
+  IF (v_Return=0) THEN
+	DBMS_OUTPUT.PUT_LINE('<font color="green">Request-Note zu '||P_REQUEST_ID||' hinzugefügt</font>');
+	:retcode:=0;					
+        -- call BETEO best practice procedure to move the request from step x to step y
+	v_Return := BETEO_KCRT_UTIL.DECISION_VOTE_VARIABLE(
+    		P_REQUEST_ID => P_REQUEST_ID,
+    		P_USERNAME => P_USERNAME,
+    		P_FROM_STEP_NUMBER => P_FROM_STEP_NUMBER,
+    		P_FROM_STEP_NAME => P_FROM_STEP_NAME,
+    		P_TO_STEP_NUMBER => P_TO_STEP_NUMBER,
+    		P_TO_STEP_NAME => P_TO_STEP_NAME,
+    		P_VISIBLE_RESULT_VALUE => P_VISIBLE_RESULT_VALUE,
+    		P_USER_COMMENT => P_USER_COMMENT
+  		);
+  		IF (v_Return=0) THEN
+			DBMS_OUTPUT.PUT_LINE('<font color="green">Request '||P_REQUEST_ID||' von '||P_FROM_STEP_NUMBER||' nach '||P_TO_STEP_NUMBER||' verschoben</font>');
+			:retcode:=0;
+		ELSE
+			:retcode:=1;
+		END IF;
+	ELSE
+		:retcode:=1;
+	END IF;
+END LOOP;
+END;
+/
+show errors
+exit :retcode
+ksc_end_script
+ksc_comment </font>
+-- execution of the stored command
+ksc_local_exec sqlplus ppmc1/ppmc1@orcl @[SCRIPT]
+-- remove the script from local disk
+ksc_local_exec rm [SCRIPT]
+-- flush the local cashe for the requests
+ksc_local_exec sh -c "cd bin;./kRunCacheManager.sh 9"
