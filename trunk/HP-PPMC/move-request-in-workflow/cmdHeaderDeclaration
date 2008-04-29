@@ -7,6 +7,15 @@ ksc_comment <tr><td>$description$The special command will move referenced reques
 ksc_comment <tr><td>$description$It will detect all referenced requests of a given type, detect their actual pending workflow step and</tr></td>
 ksc_comment <tr><td>$description$movem them to a given destination</tr></td>
 ksc_comment <tr><td>$description$the moved request will get a note describing the action</tr></td>
+ksc_comment <tr><td>$parameter$[WORKFLOW_NAME]			Optional: Workflow that get the move request</tr></td>
+ksc_comment <tr><td>$parameter$[WORKFLOW_STEP_ID_SOURCE]	Optional: Start Step to move from (will be detected by an own function if needed)</tr></td>
+ksc_comment <tr><td>$parameter$[WORKFLOW_STEP_ID_TARGET]	Required: Target Step ID for the move</tr></td>
+ksc_comment <tr><td>$parameter$[REQUESTID]			Required: Request ID of the leading request</tr></td>
+ksc_comment <tr><td>$parameter$[USERNAME]			Required: User who will be able to move the request - Attention the user must have rights to move the step</tr></td>
+ksc_comment <tr><td>$parameter$[DECISION]			Required: Decision (if moving from one step to another one of the visible transition that leads to the target step</tr></td>
+ksc_comment <tr><td>$parameter$[TYPE]				Required: FORCE_TRANSITION=step_to-step; APPROVAL_VOTE=step_to_next_step</tr></td>
+ksc_comment <tr><td>$parameter$[NOTE]				Optional: Note, that will be added to the moved request</tr></td>
+ksc_comment <tr><td>$parameter$[REQUEST_TYPE]			Required: If the leading request has more references, define the concerning references</tr></td>
 ksc_comment </table>
 ksc_comment ==========================================================
 ksc_comment <font color="green">
