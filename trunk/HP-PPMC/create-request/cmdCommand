@@ -200,6 +200,6 @@ end;
 show errors
 exit :retcode
 ksc_end_script
--- execute the script
+ksc_comment execute the script
 ksc_local_exec sqlplus ppmc1/ppmc1@orcl @[SCRIPT_NAME]
 ksc_local_exec rm [SCRIPT_NAME]
