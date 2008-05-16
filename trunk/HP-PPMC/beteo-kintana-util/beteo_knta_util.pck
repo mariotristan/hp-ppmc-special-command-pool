@@ -1,4 +1,5 @@
-create or replace package beteo_KNTA_UTIL is
+
+  CREATE OR REPLACE PACKAGE "PPMC1"."BETEO_KNTA_UTIL" is
 
   -- Author  : TOR_NEU
   -- Created : 12.03.2004 15:13:57
@@ -190,7 +191,7 @@ create or replace package beteo_KNTA_UTIL is
 
 end beteo_KNTA_UTIL;
 /
-create or replace package body beteo_KNTA_UTIL is
+CREATE OR REPLACE PACKAGE BODY "PPMC1"."BETEO_KNTA_UTIL" is
 
   c_separator constant VARCHAR2(10) := '#@#';
 
@@ -642,3 +643,4 @@ create or replace package body beteo_KNTA_UTIL is
 
 end beteo_KNTA_UTIL;
 /
+ 
