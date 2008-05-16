@@ -1,5 +1,5 @@
-CREATE OR REPLACE
-PACKAGE BETEO_kdlv_util IS
+
+  CREATE OR REPLACE PACKAGE "PPMC1"."BETEO_KDLV_UTIL" IS
 
   /*
   * Package Name: BETEO_kdlv_util                                      
@@ -453,8 +453,7 @@ PACKAGE BETEO_kdlv_util IS
 
 END BETEO_kdlv_util;
 /
-CREATE OR REPLACE
-PACKAGE BODY BETEO_kdlv_util IS
+CREATE OR REPLACE PACKAGE BODY "PPMC1"."BETEO_KDLV_UTIL" IS
 
   /*
   * Package Name: BETEO_kdlv_util                                      
@@ -2371,3 +2370,4 @@ PACKAGE BODY BETEO_kdlv_util IS
 
 END BETEO_kdlv_util;
 /
+ 

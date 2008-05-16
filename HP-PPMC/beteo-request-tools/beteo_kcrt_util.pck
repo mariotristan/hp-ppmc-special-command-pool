@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PACKAGE "BETEO_KCRT_UTIL" is
+  CREATE OR REPLACE PACKAGE "PPMC1"."BETEO_KCRT_UTIL" is
 
   -- Author  : TOR_NEU<br>
   -- Created : 11.03.2004 10:59:43<br>
@@ -27,6 +27,7 @@
   *                               deprecated set_fg_pfm_proposal_fields() and
   *                                          set_fg_pfm_project_fields() for PPM 7.1
   *  12/12/2007  Torsten Neumann  added delete_reference()
+  *  05/05/2008  Markus von der Heiden added decision_vote_variable()
   */
   -- Public type declarations
   type t_request_handle is record(
@@ -487,6 +488,29 @@
                          p_user_comment         varchar2 default null)
     return number;
 
+  /*
+  * Forwards any request workflow step
+  *
+  * #param p_request_id  Identifier of the request that should be forwarded.
+  * #param p_username    The username that acts on the decision step.
+  * #param p_from_step_number The sequence number (sort order) of the step the workflow is currently in.
+  * #param p_step_name   The name of the step that the workflow is scurrently in.
+  * #param p_to_step_number The sequence number (sort order) of the step the workflow will be moved.
+  * #param p_visible_result_value The desired visible outcome of the decision step.
+  * #param p_user_comment An optional user comment which will be placed in the request notes.
+  *
+  * #return Returns BETEO_OK upon success and BETEO_ERROR otherwise.
+  */
+  function decision_vote_variable(p_request_id           kcrt_requests.request_id%type,
+                                  p_username             knta_users.username%type,
+                                  p_from_step_number     kwfl_transactions_int.workflow_step_seq%type,
+                                  p_from_step_name       kwfl_transactions_int.workflow_step_name%type,
+                                  p_to_step_number     kwfl_transactions_int.workflow_step_seq%type,
+                                  p_to_step_name       kwfl_transactions_int.workflow_step_name%type,                                  
+                                  p_visible_result_value kwfl_step_transactions.visible_result_value%type,
+                                  p_user_comment         varchar2 default null)
+    return number;
+
   function get_security_group_id(p_security_group_name knta_security_groups.security_group_name%type)
     return knta_security_groups.security_group_id%type;
 
@@ -647,7 +671,7 @@
 
 end BETEO_KCRT_UTIL;
 /
-CREATE OR REPLACE PACKAGE BODY "BETEO_KCRT_UTIL" is
+CREATE OR REPLACE PACKAGE BODY "PPMC1"."BETEO_KCRT_UTIL" is
 
   -- Private variable declarations
   BETEO_INVALID_HANDLE_EX exception;
@@ -2281,6 +2305,66 @@ CREATE OR REPLACE PACKAGE BODY "BETEO_KCRT_UTIL" is
       raise BETEO_TXN_INTERFACE_EX;
     end if;
     dbms_output.put_line('decision_vote() completed successfully');
+    return BETEO_OK;
+  exception
+    when BETEO_TXN_INTERFACE_EX then
+      dbms_output.put_line('ERROR: decision_vote() FAILED');
+      dbms_output.put_line('ERROR: Message Name: ' || l_message_name);
+      dbms_output.put_line('ERROR:      Message: ' || l_message);
+      return BETEO_ERROR;
+    when others then
+      dbms_output.put_line('ERROR: decision_vote() FAILED');
+      dbms_output.put_line('ERROR: SQLCODE : ' || sqlcode);
+      dbms_output.put_line('ERROR:  SQLMSG : ' || sqlerrm);
+      return BETEO_ERROR;
+  end;
+
+  function decision_vote_variable(p_request_id           kcrt_requests.request_id%type,
+                                  p_username             knta_users.username%type,
+                                  p_from_step_number     kwfl_transactions_int.workflow_step_seq%type,
+                                  p_from_step_name       kwfl_transactions_int.workflow_step_name%type,
+                                  p_to_step_number       kwfl_transactions_int.workflow_step_seq%type,
+                                  p_to_step_name         kwfl_transactions_int.workflow_step_name%type,
+                                  p_visible_result_value kwfl_step_transactions.visible_result_value%type,
+                                  p_user_comment         varchar2) return number is
+    l_group_id     kwfl_transactions_int.group_id%type;
+    l_message_type number;
+    l_message_name varchar2(100);
+    l_message      varchar2(2000);
+  begin
+    l_group_id := kcrt_request_int.get_next_group_id();
+    kwfl_txn_int.insert_row(p_event                 => 'FORCE_TRANSITION',
+                            p_group_id              => l_group_id,
+                            p_created_username      => p_username,
+                            p_source                => null,
+                            p_request_number        => p_request_id,
+                            p_package_number        => null,
+                            p_package_line_seq      => null,
+                            p_workflow_step_seq     => p_from_step_number,
+                            p_workflow_step_name    => p_from_step_name,
+                            p_visible_result_value  => p_visible_result_value,
+                            p_user_comments         => p_user_comment,
+                            p_delegated_to_username => null,
+                            p_schedule_date         => null,
+                            p_to_workflow_step_name => p_to_step_name,
+                            p_to_workflow_step_seq  => p_to_step_number,
+                            O_MESSAGE_TYPE          => l_message_type,
+                            O_MESSAGE_NAME          => l_message_name,
+                            O_MESSAGE               => l_message);
+    if (l_message_type != knta_constant.SUCCESS) then
+      raise BETEO_TXN_INTERFACE_EX;
+    end if;
+    kwfl_txn_int.run_interface(P_GROUP_ID     => l_group_id,
+                               P_SOURCE       => null,
+                               P_USER_ID      => 1,
+                               P_USR_DBG      => knta_constant.DEBUG_ALL,
+                               O_MESSAGE_TYPE => l_message_type,
+                               O_MESSAGE_NAME => l_message_name,
+                               O_MESSAGE      => l_message);
+    if (l_message_type != knta_constant.SUCCESS) then
+      raise BETEO_TXN_INTERFACE_EX;
+    end if;
+    dbms_output.put_line('decision_vote_variable() completed successfully');
     return BETEO_OK;
   exception
     when BETEO_TXN_INTERFACE_EX then
