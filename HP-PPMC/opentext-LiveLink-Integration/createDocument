@@ -1,0 +1,36 @@
+ksc_comment <table border="1">
+ksc_comment <tr><td>$command$		</td><td>sc_eFinPM-DMS-lapiDocCreate</td></tr>
+ksc_comment <tr><td>$author$		</td><td> christoph.mayerhofer@hp.com, marcel.bezak@hp.com</tr></td>
+ksc_comment <tr><td>$version$		</td><td> Version 1.3</tr></td>
+ksc_comment <tr><td>$date$		</td><td> 28.05.2008</td></tr>
+ksc_comment <tr><td>$description$	</td><td> Legt ein neues Dokument in Livelink an</tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td> LDOCNAME: Neues Dokument wird unter diesem Namen abgelegt</tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td> LDOCPREFIXNUM: Prefixnummer des Dokumentes, welches im PPMC-Attachment-Verzeichniss gespeichert ist</tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td> DOCIDFIELDNAME: Name des Request-Feldes in welchem die Livelink-ID des neu erzeugten Dokumentes gespeichert wird</tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td> LLINKFIELDNAME: Name des Feld wo die Link zu Dokument in Livelink gespeichert ist</tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td> LLINKDOCFIELDNAME: Name des Feld wo die Link zu Dokument in Livelink gespeichert ist</tr></td>
+ksc_comment <tr><td>$return_parameter$	</td><td> Dokument ID (gespeichert in das Feld mit Name DOCIDFIELDNAME) </tr></td>
+ksc_comment </table>
+
+ksc_set ID=[SYS.UNIQUE_IDENTIFIER]
+ksc_set SCRIPT=[AS.SCRIPT_DIR][REQ.REQUEST_ID][ID].sh
+ksc_set ERROROUTPUT=[AS.SCRIPT_DIR][REQ.REQUEST_ID][ID].txt
+ksc_set LJAVA_PATH="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_JAVA_PATH".DESCRIPTION]"
+ksc_set LAPICMD_PATH="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_PATH".DESCRIPTION]"
+ksc_set DMS_LL_HOST="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_HOST".DESCRIPTION]"
+ksc_set DMS_LL_PORT="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_PORT".DESCRIPTION]"
+ksc_set DOCNAME="[REQ.REQUEST_ID][ID][LDOCNAME]"
+ksc_comment <tr><td>$used command$ 	</td><td> [LJAVA_PATH]java -jar [LAPICMD_PATH]lapiCommand.jar -host [DMS_LL_PORT] -port [DMS_LL_HOST] -U techuser1 -P livelink -C addDoc -docName "[DOCNAME]" -docPath "$LDOCFULLPATH" | grep docID | cut -d , -f 2 | cut -d = -f 2 </tr></td>
+
+ksc_begin_script [SCRIPT]
+#/bin/sh
+LDOCFULLPATH='"'`find [AS.ATTACHMENT_DIRNAME] -name [LDOCPREFIXNUM]_*`'"'
+[LJAVA_PATH]java -jar [LAPICMD_PATH]lapiCommand.jar -host [DMS_LL_HOST] -port [DMS_LL_PORT] "$@" -C addDoc -docName "[DOCNAME]" -docPath "$LDOCFULLPATH" 2>[ERROROUTPUT] | grep docID | cut -d , -f 2 | cut -d = -f 2 
+ksc_end_script
+ksc_local_exec chmod 755 [SCRIPT]
+ksc_local_exec [SCRIPT] -U [SYS.USERNAME] -P [USR="[SYS.USERNAME]".PASSWORD]
+ksc_set TEMPLDOCID="[EXEC.OUTPUT]"
+ksc_store [DOCIDFIELDNAME] = [TEMPLDOCID]
+ksc_local_exec rm [SCRIPT]
+ksc_local_exec cat [ERROROUTPUT]
+ksc_local_exec test ! -s [ERROROUTPUT]

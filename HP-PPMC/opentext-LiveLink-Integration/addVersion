@@ -1,0 +1,33 @@
+ksc_comment ==========================================================
+ksc_comment <table border="1">
+ksc_comment <tr><td>$command$		</td><td>sc_eFinPM-DMS-lapiDocAddVersion </td></tr>
+ksc_comment <tr><td>$author$		</td><td>Marcel.Bezak@hp.com; Christoph.Mayerhofer@hp.com </tr></td>
+ksc_comment <tr><td>$date$		</td><td>18.03.2008 </tr></td>
+ksc_comment <tr><td>$version$		</td><td>1.0 </tr></td>
+ksc_comment <tr><td>$description$	</td><td>Anlegen einer neuen Dokumenten-Version von existierendem Dokument in Livelink </tr></td>
+ksc_comment <tr><td>$required_parameter$</td><td>LDOCNAME: Livelink-Dokumentname, LDOCPREFIXNUM: Dokument-Praefix Nummer generiert vom PPMC, LDOCID: Livelink-DokumentID, VERFIELDNAME: Name des Feldes in welchem die neue Versionsnummer gespeichert ist </tr></td>
+ksc_comment <tr><td>$return$		</td><td>Neue Version des Livelink-Dokumentes (gespeichert in das Feld VERFIELDNAME) </tr></td>
+ksc_comment <tr><td>$open point$	</td><td>Open point 1: handling in case of LDOCPREFIXNUM id not valid is missing </tr></td>
+ksc_comment <tr><td>$open point$	</td><td>Open point 2: jar file can also be in other (remote) server - for final solution connect is necessary </tr></td>
+ksc_comment <tr><td>$open point$	</td><td>Open point 4: handling in case of LDOCFULLPATH point to not existing document is missing </tr></td>
+ksc_comment </table>
+
+ksc_set ID=[SYS.UNIQUE_IDENTIFIER]
+ksc_set SCRIPT=[AS.SCRIPT_DIR][REQ.REQUEST_ID][ID].sh
+ksc_set LJAVA_PATH="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_JAVA_PATH".DESCRIPTION]"
+ksc_set LAPICMD_PATH="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_PATH".DESCRIPTION]"
+ksc_set DMS_LL_HOST="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_HOST".DESCRIPTION]"
+ksc_set DMS_LL_PORT="[VAL="eFinPM-PPMC-Global-Parameter".VALUE="LAPI_PORT".DESCRIPTION]"
+
+ksc_begin_script [SCRIPT]
+#/bin/sh
+# search the document in the attachments of the PPM using document sequence prefix
+LDOCFULLPATH='"'`find [AS.ATTACHMENT_DIRNAME] -name [LDOCPREFIXNUM]_*`'"' 2>/dev/null
+# execute addVersion command
+[LJAVA_PATH]java -jar [LAPICMD_PATH]lapiCommand.jar -host [DMS_LL_HOST] -port [DMS_LL_PORT]  "$@" -C unresCinObject -docID [LDOCID] -docName "[LDOCNAME]" -docPath "$LDOCFULLPATH" 2>/dev/null | grep version | cut -d , -f 2 | cut -d = -f 2
+exit 0
+ksc_end_script
+ksc_local_exec chmod 755 [SCRIPT]
+ksc_local_exec [SCRIPT] -U [SYS.USERNAME] -P [USR="[SYS.USERNAME]".PASSWORD]
+ksc_store [VERFIELDNAME] = "[EXEC.OUTPUT]"
+ksc_local_exec rm [SCRIPT]
