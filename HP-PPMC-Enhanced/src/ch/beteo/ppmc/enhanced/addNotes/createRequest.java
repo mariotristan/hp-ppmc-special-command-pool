@@ -1,4 +1,4 @@
-package ch.beteo.ppmc.enhanced.requests;
+package ch.beteo.ppmc.enhanced.addNotes;
 
 import java.sql.*;
 
