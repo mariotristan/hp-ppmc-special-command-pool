@@ -5,17 +5,13 @@ import java.sql.*;
 public class AddNotes {
 	
 	public static void main(String[] args) {
-		
-//			p_request_id kcrt_requests.request_id%type,
-//			p_username   knta_users.username%type,
-//			p_note_text  varchar2)
+
 		String request_id = null, username = null, note_text = null;
 		String status_name = "in Erstellung", status_id = "30285";
-		if( true ) {
+		if( args.length == 3 ) {
 		      request_id = args[0];
 		      username = args[1];
-		      note_text = args[2];
-		      
+		      note_text = args[2];		      
 		      
 			String sDbDrv="oracle.jdbc.driver.OracleDriver",
 	    	sDbUrl="jdbc:oracle:thin:@16.55.43.33:1521:orcl",
@@ -51,6 +47,10 @@ public class AddNotes {
 		      {
 		    	  System.out.println("Fehler " + e);
 		      }
+		}
+		else {
+			System.out.println("Wrong number of Arguments");
+		}
 		}
 	}
 }
