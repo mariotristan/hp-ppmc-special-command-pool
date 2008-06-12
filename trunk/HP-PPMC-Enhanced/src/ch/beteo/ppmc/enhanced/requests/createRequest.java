@@ -1,6 +1,5 @@
 package ch.beteo.ppmc.enhanced.requests;
 
-import java.io.*;
 import java.sql.*;
 
 public class createRequest
@@ -8,8 +7,8 @@ public class createRequest
   public static void main( String[] argv )
   {
     String sDbDrv="oracle.jdbc.driver.OracleDriver",
-    	sDbUrl="jdbc:oracle:thin:@62.2.215.213:1521:orcl",
-    	sTable="itg.kcrt_requests", sUsr="system", sPwd="cirrus";
+    	sDbUrl="jdbc:oracle:thin:@16.55.43.33:1521:orcl",
+    	sTable="kcrt_requests_v", sUsr="ppmc1", sPwd="ppmc1";
     if( 3 <= argv.length ) {
       sDbDrv = argv[0];
       sDbUrl = argv[1];
