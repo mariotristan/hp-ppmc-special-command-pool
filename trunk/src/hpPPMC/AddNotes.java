@@ -8,14 +8,16 @@ public class AddNotes {
 
 		String request_id = null, username = null, note_text = null;
 		String status_name = "in Erstellung", status_id = "30285";
+		
 		if( args.length == 3 ) {
-		      request_id = args[0];
-		      username = args[1];
-		      note_text = args[2];		      
+			
+			request_id = args[0];
+		    username = args[1];
+		    note_text = args[2];		      
 		      
 			String sDbDrv="oracle.jdbc.driver.OracleDriver",
 	    	sDbUrl="jdbc:oracle:thin:@16.55.43.33:1521:orcl",
-	    	sTable="kcrt_requests_v", sUsr="ppmc1", sPwd="ppmc1";
+	    	sUsr="ppmc1", sPwd="ppmc1";
 			
 			Connection cn = null;
 		    Statement  st = null;
@@ -49,8 +51,7 @@ public class AddNotes {
 		      }
 		}
 		else {
-			System.out.println("Wrong number of Arguments");
-		}
+			System.out.println("Wrong number of Arguments");		
 		}
 	}
 }
