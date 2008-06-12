@@ -2,18 +2,19 @@ package hpPPMC;
 
 import java.sql.*;
 
-public class AddNotes {
-	
+public class AddNotes {	
 	public static void main(String[] args) {
 
-		String request_id = null, username = null, note_text = null;
-		String status_name = "in Erstellung", status_id = "30285";
-		
-		if( args.length == 3 ) {
+		String querry = null;
+		String request_id = null, username = null, note_text = null, status_name = null, status_id = null;
+				
+		if( args.length == 5 ) {
 			
 			request_id = args[0];
 		    username = args[1];
-		    note_text = args[2];		      
+		    note_text = args[2];
+		    status_name = args[3]; 
+		    status_id = args[4];
 		      
 			String sDbDrv="oracle.jdbc.driver.OracleDriver",
 	    	sDbUrl="jdbc:oracle:thin:@16.55.43.33:1521:orcl",
@@ -27,27 +28,33 @@ public class AddNotes {
 		        Class.forName( sDbDrv );
 		        cn = DriverManager.getConnection( sDbUrl, sUsr, sPwd );
 		        st = cn.createStatement();
-		        
-		        rs = st.executeQuery("select u.user_id " +
-		        		"from knta_users u where u.username = 'mayerhof'");
+		        		        
+		        querry = "select u.user_id from knta_users u where u.username='" + username + "'";
+		        System.out.println(querry);
+		        rs = st.executeQuery(querry);
 		        rs.next();
 		        String user_id = rs.getString("USER_ID");
-		        System.out.println("Output " + user_id);
+		        System.out.println("USER_ID " + user_id);
 		        
-		        String querry = "insert into knta_note_entries (note_entry_id, creation_date, created_by, last_update_date, last_updated_by, parent_entity_id, parent_entity_primary_key, author_id, authored_date, note_context_value, note_context_visible_value, note)" +
-				  "values (knta_note_entries_s.nextval, sysdate, " + user_id + ", sysdate, " + user_id + ", 20 , " + request_id + ", " + user_id + ", sysdate, " + status_id + ", '" + status_name + "', '" + note_text + "' )";
+		        querry = "insert into knta_note_entries (note_entry_id, creation_date, created_by, last_update_date, last_updated_by, parent_entity_id, parent_entity_primary_key, author_id, authored_date, note_context_value, note_context_visible_value, note)" +
+		        		 "values (knta_note_entries_s.nextval, sysdate, " + user_id + ", sysdate, " + user_id + ", 20 , " + request_id + ", " + user_id + ", sysdate, " + status_id + ", '" + status_name + "', '" + note_text + "' )";
 			
 		        System.out.println(querry);
-		        
-		        rs = st.executeQuery(querry);
-		        
-		        System.out.println(rs);
-			       querry = "update kcrt_requests r set r.entity_last_update_date = sysdate, r.last_update_date = sysdate, r.last_updated_by = " + user_id + " where r.request_id = " + request_id;
+		      		        
+		        int returnValue = st.executeUpdate(querry);
+		                
+		        System.out.println(returnValue + " rows inserted");
+			       
+		        querry = "update kcrt_requests r set r.entity_last_update_date = sysdate, r.last_update_date = sysdate, r.last_updated_by = " + user_id + " where r.request_id = " + request_id;
 			       System.out.println(querry);
 			       rs = st.executeQuery(querry);
-		      } catch(Exception e)
+			       cn.close();
+		      } catch(SQLException e)
 		      {
-		    	  System.out.println("Fehler " + e);
+		    	  System.out.println("SQL-Fehler: " + e);
+		      }
+		      catch(Exception ex) {
+		    	  System.out.println("Fehler: " + ex);
 		      }
 		}
 		else {
