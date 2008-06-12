@@ -1,5 +1,3 @@
-package ch.beteo.ppmc.enhanced.addNotes;
-
 import java.sql.*;
 
 public class createRequest
