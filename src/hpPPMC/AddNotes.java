@@ -2,6 +2,14 @@ package hpPPMC;
 
 import java.sql.*;
 
+// Executing the AddNotes Class allows to add a note to a specific Request.
+// The following parameters are needed to execute the class: 
+// 		Parameter 1: request_id		->  ID of the Request
+//		Parameter 2: username		->	Name of the user who wants to add the note
+//		Parameter 3: note_text		->	The text of the note
+//		Parameter 4: status_name	->	Name of the current Request-Status
+//		Parameter 5: status_id		->	ID of the current Request-Status
+
 public class AddNotes {	
 	public static void main(String[] args) {
 
@@ -30,7 +38,8 @@ public class AddNotes {
 		        Class.forName( sDbDrv );
 		        cn = DriverManager.getConnection( sDbUrl, sUsr, sPwd );
 		        st = cn.createStatement();
-		        		        
+		        
+		        // Find out the user id
 		        querry = "select u.user_id from knta_users u where u.username='" + username + "'";
 		        System.out.println(querry);
 		        rs = st.executeQuery(querry);
@@ -38,6 +47,7 @@ public class AddNotes {
 		        String user_id = rs.getString("USER_ID");
 		        System.out.println("USER_ID " + user_id);
 		        
+		        // Insert the note into the database
 		        querry = "insert into knta_note_entries (note_entry_id, creation_date, created_by, last_update_date, last_updated_by, parent_entity_id, parent_entity_primary_key, author_id, authored_date, note_context_value, note_context_visible_value, note)" +
 		        		 "values (knta_note_entries_s.nextval, sysdate, " + user_id + ", sysdate, " + user_id + ", 20 , " + request_id + ", " + user_id + ", sysdate, " + status_id + ", '" + status_name + "', '" + note_text + "' )";
 			
