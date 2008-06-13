@@ -5,6 +5,7 @@ import java.sql.*;
 public class AddNotes {	
 	public static void main(String[] args) {
 
+		int returnValue;
 		String querry = null;
 		String request_id = null, username = null, note_text = null, status_name = null, status_id = null;
 				
@@ -23,6 +24,7 @@ public class AddNotes {
 			Connection cn = null;
 		    Statement  st = null;
 		    ResultSet  rs = null;
+		    
 		    try {
 		    	// Select fitting database driver and connect:
 		        Class.forName( sDbDrv );
@@ -41,20 +43,26 @@ public class AddNotes {
 			
 		        System.out.println(querry);
 		      		        
-		        int returnValue = st.executeUpdate(querry);
+		        returnValue = st.executeUpdate(querry);
 		                
 		        System.out.println(returnValue + " rows inserted");
-			       
+			      
 		        querry = "update kcrt_requests r set r.entity_last_update_date = sysdate, r.last_update_date = sysdate, r.last_updated_by = " + user_id + " where r.request_id = " + request_id;
-			       System.out.println(querry);
-			       rs = st.executeQuery(querry);
-			       cn.close();
+			    System.out.println(querry);
+			    returnValue = st.executeUpdate(querry);
+			   			   
+			    cn.close();
+			    st.close();
+			    
+			    System.out.println(returnValue + " rows updated");
+			    
+			    
 		      } catch(SQLException e)
 		      {
-		    	  System.out.println("SQL-Fehler: " + e);
+		    	  System.out.println("Error (SQL): " + e);
 		      }
 		      catch(Exception ex) {
-		    	  System.out.println("Fehler: " + ex);
+		    	  System.out.println("Error: " + ex);
 		      }
 		}
 		else {
