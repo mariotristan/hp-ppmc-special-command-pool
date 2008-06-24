@@ -10,6 +10,7 @@ import java.sql.Statement;
 //		Parameter 1: command		-> 	Command (addNote, changeCreater, ...)
 //		Parameter 2: request_id		->  ID of the Request
 //		Parameter 3: user_id		->	ID of the new User-Value
+//      Open:        user_name      ->  give the user the opportunity to bypass the user_id and use username instead
 
 public class CreatedBy {
 		
