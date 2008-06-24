@@ -5,6 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+//Executing the changeCreater method allows to change the CREATED_BY field of a specific Request.
+//The following parameters are needed to execute the class: 
+//		Parameter 1: command		-> 	Command (addNote, changeCreater, ...)
+//		Parameter 2: request_id		->  ID of the Request
+//		Parameter 3: user_id		->	ID of the new User-Value
+
 public class CreatedBy {
 		
 	Connection cn = null;
@@ -23,8 +29,8 @@ public class CreatedBy {
     		
     		try {
 		    	// Select fitting database driver and connect:
-		        Class.forName( PPMCCommands.sDbDrv );
-		        cn = DriverManager.getConnection( PPMCCommands.sDbUrl, PPMCCommands.sUsr, PPMCCommands.sPwd );
+		        Class.forName( PPMCCommands.SDBDRV );
+		        cn = DriverManager.getConnection( PPMCCommands.SDBURL, PPMCCommands.SUSR, PPMCCommands.SPWD );
 		        st = cn.createStatement();
 		        
 		        // Find out the user id
@@ -39,6 +45,9 @@ public class CreatedBy {
     	}
     	else {
     		System.out.println("Wrong number of Arguments");
+			System.out.println("Parameter 1: command ->	changeCreater");
+			System.out.println("Parameter 2: request_id -> ID of the Request");
+			System.out.println("Parameter 3: user_id -> ID of the new User-Value");
     	}
     }
 }

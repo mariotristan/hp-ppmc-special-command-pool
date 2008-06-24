@@ -2,13 +2,14 @@ package hpPPMC;
 // Parameter fuer Probeaufruf: "addNote" "30932" "mayerhof"  "ich bin ein lustiger NoteText2" "in Erstellung" "30285"
 import java.sql.*;
 
-// Executing the AddNotes Class allows to add a note to a specific Request.
+// Executing the AddNote method allows to add a note to a specific Request.
 // The following parameters are needed to execute the class: 
-// 		Parameter 1: request_id		->  ID of the Request
-//		Parameter 2: username		->	Name of the user who wants to add the note
-//		Parameter 3: note_text		->	The text of the note
-//		Parameter 4: status_name	->	Name of the current Request-Status
-//		Parameter 5: status_id		->	ID of the current Request-Status
+//		Parameter 1: command		-> 	Command (addNote, changeCreater, ...)
+// 		Parameter 2: request_id		->  ID of the Request
+//		Parameter 3: username		->	Name of the user who wants to add the note
+//		Parameter 4: note_text		->	The text of the note
+//		Parameter 5: status_name	->	Name of the current Request-Status
+//		Parameter 6: status_id		->	ID of the current Request-Status
 
 public class AddNotes {	
 	
@@ -31,8 +32,8 @@ public class AddNotes {
 		    			    	
 		    	try {
 			    	// Select fitting database driver and connect:
-			        Class.forName( PPMCCommands.sDbDrv );
-			        cn = DriverManager.getConnection( PPMCCommands.sDbUrl, PPMCCommands.sUsr, PPMCCommands.sPwd );
+			        Class.forName( PPMCCommands.SDBDRV );
+			        cn = DriverManager.getConnection( PPMCCommands.SDBURL, PPMCCommands.SUSR, PPMCCommands.SPWD );
 			        st = cn.createStatement();
 			        
 			        // Find out the user id
@@ -70,7 +71,13 @@ public class AddNotes {
 			      }
 		}
 		else {
-			System.out.println("Wrong number of Arguments");		
+			System.out.println("Wrong number of Arguments");
+			System.out.println("Parameter 1: command ->	addNote");
+			System.out.println("Parameter 2: request_id -> ID of the Request");
+			System.out.println("Parameter 3: username -> Name of the user who wants to add the note");
+			System.out.println("Parameter 4: note_text -> The text of the note");
+			System.out.println("Parameter 5: status_name -> Name of the current Request-Status");
+			System.out.println("Parameter 6: status_id -> ID of the current Request-Status");			
 		}
 	}
 }
