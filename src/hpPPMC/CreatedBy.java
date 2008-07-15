@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-//Executing the changeCreater method allows to change the CREATED_BY field of a specific Request.
+//Executing the changeCreater method allows to change the CREATED_BY field of a specific Request
 //The following parameters are needed to execute the class: 
 //		Parameter 1: command		-> 	Command (addNote, changeCreater, ...)
 //		Parameter 2: request_id		->  ID of the Request
