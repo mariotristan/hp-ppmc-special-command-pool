@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "PPMC1"."FLATTEN_QUERY_RESULT" (
+  CREATE OR REPLACE FUNCTION "PPMC"."FLATTEN_QUERY_RESULT" (
   p_query       varchar2
   ,p_separator  varchar2
 ) return varchar2 is
