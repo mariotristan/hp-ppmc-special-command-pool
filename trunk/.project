@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>PPMC</name>
+	<name>beteo.demo</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -10,8 +10,55 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.datamodel.processresourcebuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.dataobjects.dataobjectbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.dataobjects.wsdlvalidationbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.workflow.xforms.builder.xformsbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.datamodel.datamodelbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.workflow.xforms.builder.WorkflowIntegratorAndPipaDescriptorBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.pxecompiler.pxebuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.intalio.bpms.designer.svg.svgbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.stp.bpmn.validation.BatchValidationBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.intalio.bpms.designer.core.designernature</nature>
+		<nature>org.eclipse.stp.bpmn.validation.BatchValidationBuildAbleNature</nature>
 	</natures>
 </projectDescription>
