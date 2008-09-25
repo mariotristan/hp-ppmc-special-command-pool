@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://mercury.com/itg/fm/1.0"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:apachesoap="http://xml.apache.org/xml-soap"
+    xmlns:types="http://mercury.com/itg/dm/1.0/types"
+    xmlns:intf="http://mercury.com/itg/dm/1.0"
+    xmlns:fmtypes="http://mercury.com/itg/fm/1.0/types"
+    xmlns:fmintf="http://mercury.com/itg/fm/1.0"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <wsdl:types>
+        <schema targetNamespace="http://mercury.com/itg/dm/1.0/types"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+            <import
+                namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+            <complexType name="Value" abstract="true">
+                <sequence />
+            </complexType>
+
+            <complexType name="RequestHeader">
+                <sequence>
+                    <element name="auditNote" nillable="false"
+                        type="xsd:string" />
+                    <element name="origin" nillable="false"
+                        type="xsd:string" />
+                    <element name="transactionName" nillable="false"
+                        type="xsd:string" />
+                    <element name="credentials" nillable="false"
+                        type="types:Credentials" />
+                </sequence>
+            </complexType>
+            <complexType name="Credentials" abstract="true">
+                <sequence />
+            </complexType>
+            <complexType name="LoginAccount">
+                <complexContent>
+                    <extension base="types:Credentials">
+                        <sequence>
+                            <element name="username" nillable="false"
+                                type="xsd:string" />
+                            <element name="password" nillable="false"
+                                type="xsd:string" />
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+
+            <complexType name="ProcessingError">
+                <sequence>
+                    <element name="errors" nillable="false"
+                        type="types:ArrayOf_types_ErrorMessage" />
+                    <element name="message" nillable="false"
+                        type="xsd:string" />
+                </sequence>
+            </complexType>
+            <complexType name="SingleValue">
+                <complexContent>
+                    <extension base="types:Value">
+                        <sequence>
+                            <element name="tokenValue" nillable="false"
+                                type="xsd:string" />
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="MultipleValues">
+                <complexContent>
+                    <extension base="types:Value">
+                        <sequence>
+                            <element name="values" nillable="true"
+                                type="types:ArrayOf_xsd_string" />
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="DateValue">
+                <complexContent>
+                    <extension base="types:Value">
+                        <sequence>
+                            <element name="date" nillable="true"
+                                type="xsd:dateTime" />
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="Field">
+                <sequence>
+                    <element name="token" nillable="false"
+                        type="xsd:string" />
+                    <element name="value" nillable="false"
+                        type="types:Value" />
+                </sequence>
+            </complexType>
+            <complexType name="ErrorMessage">
+                <sequence>
+                    <element name="code" nillable="true" type="xsd:int" />
+                    <element name="message" nillable="true"
+                        type="xsd:string" />
+                </sequence>
+            </complexType>
+            <complexType name="ResponseMessage">
+                <sequence>
+                    <element name="code" nillable="false" type="xsd:int" />
+                    <element name="message" nillable="false"
+                        type="xsd:string" />
+                </sequence>
+            </complexType>
+            <complexType name="ArrayOf_types_Field">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="types:Field[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="ArrayOf_xsd_string">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="xsd:string[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="ArrayOf_types_ErrorMessage">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="types:ErrorMessage[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+        </schema>
+
+        <schema targetNamespace="http://mercury.com/itg/fm/1.0/types"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+            <complexType name="BudgetFilters">
+                <sequence>
+                    <element name="budgetName" nillable="true" type="xsd:string"/>
+                    <element name="budgetID" nillable="true" type="xsd:int"/>
+                    <element name="budgetStatuses" nillable="true" type="types:ArrayOf_xsd_string"/>
+                    <element name="active" nillable="true" type="xsd:boolean"/>
+                    <element name="associatedWithType" nillable="true" type="xsd:string"/>
+                    <element name="associatedWithName" nillable="true" type="xsd:string"/>
+                    <element name="budgetUserData" nillable="true" type="types:ArrayOf_types_Field"/>
+                </sequence>
+            </complexType>
+            <complexType name="ReadMessage">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="budgetFilters" nillable="false" type="fmtypes:BudgetFilters"/>
+                </sequence>
+            </complexType>
+            <complexType name="ReadResponse">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="responseMessage" nillable="false" type="types:ResponseMessage"/>
+                    <element name="Budget" nillable="true" type="fmtypes:ArrayOf_fmtypes_Budget"/>
+                </sequence>
+            </complexType>
+            <complexType name="CreateMessage">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="budget" nillable="false" type="fmtypes:Budget"/>
+                </sequence>
+            </complexType>
+            <complexType name="UpdateMessage">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="budget" nillable="false" type="fmtypes:Budget"/>
+                </sequence>
+            </complexType>
+            <complexType name="UpdateResponse">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="responseMessage" nillable="false" type="types:ResponseMessage"/>
+                    <element name="budgetID" nillable="false" type="xsd:int"/>
+                </sequence>
+            </complexType>
+            <complexType name="CreateResponse">
+                <sequence>
+                    <element name="header" nillable="false" type="types:RequestHeader"/>
+                    <element name="responseMessage" nillable="false" type="types:ResponseMessage"/>
+                    <element name="budgetID" nillable="false" type="xsd:int"/>
+                </sequence>
+            </complexType>
+            <complexType name="BudgetLineDetail">
+                <sequence>
+                    <element name="periodName" nillable="true" type="xsd:string"/>
+                    <element name="periodStartDate" nillable="false" type="xsd:dateTime"/>
+                    <element name="planValue" nillable="true" type="xsd:decimal"/>
+                    <element name="actualValue" nillable="true" type="xsd:decimal"/>
+                </sequence>
+            </complexType>
+            <complexType name="BudgetLine">
+                <sequence>
+                    <element name="budgetLineID" nillable="true" type="xsd:int"/>
+                    <element name="typeCode" nillable="false" type="xsd:string"/>
+                    <element name="categoryCode" nillable="false" type="xsd:string"/>
+                    <element name="expenseTypeCode" nillable="true" type="xsd:string"/>
+                    <element name="userData" nillable="true" type="types:ArrayOf_types_Field"/>
+                    <element name="budgetLineDetails" nillable="true" type="fmtypes:ArrayOf_fmtypes_BudgetLineDetail"/>
+                </sequence>
+            </complexType>
+            <complexType name="Budget">
+                <sequence>
+                    <element name="budgetID" nillable="true" type="xsd:int"/>
+                    <element name="budgetName" nillable="false" type="xsd:string"/>
+                    <element name="capexOpexEnabledFlag" nillable="true" type="xsd:boolean"/>
+                    <element name="actualsRolledUpCode" nillable="true" type="xsd:string"/>
+                    <element name="active" nillable="true" type="xsd:boolean"/>
+                    <element name="associatedWithType" nillable="true" type="xsd:string"/>
+                    <element name="associatedWithName" nillable="true" type="xsd:string"/>
+                    <element name="startPeriodName" nillable="true" type="xsd:string"/>
+                    <element name="endPeriodName" nillable="true" type="xsd:string"/>
+                    <element name="startPeriodStartDate" nillable="false" type="xsd:dateTime"/>
+                    <element name="endPeriodStartDate" nillable="false" type="xsd:dateTime"/>
+                    <element name="periodType" nillable="false" type="xsd:string"/>
+                    <element name="description" nillable="true" type="xsd:string"/>
+                    <element name="budgetStatus" nillable="false" type="xsd:string"/>
+                    <element name="regionName" nillable="false" type="xsd:string"/>
+                    <element name="baseCurrency" nillable="true" type="xsd:string"/>
+                    <element name="userData" nillable="true" type="types:ArrayOf_types_Field"/>
+                    <element name="budgetLines" nillable="true" type="fmtypes:ArrayOf_fmtypes_BudgetLine"/>
+                </sequence>
+            </complexType>
+            <complexType name="ArrayOf_fmtypes_BudgetLineDetail">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="fmtypes:BudgetLineDetail[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="ArrayOf_fmtypes_BudgetLine">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="fmtypes:BudgetLine[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="ArrayOf_fmtypes_Budget">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType"
+                            wsdl:arrayType="fmtypes:Budget[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+        </schema>
+    </wsdl:types>
+
+    <wsdl:message name="ProcessingErrorFault">
+        <wsdl:part name="fault" type="types:ProcessingError" />
+    </wsdl:message>
+
+    <wsdl:message name="ReadResponse">
+        <wsdl:part name="readReturn" type="fmtypes:ReadResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="ReadRequest">
+        <wsdl:part name="readMessage" type="fmtypes:ReadMessage" />
+    </wsdl:message>
+
+    <wsdl:message name="UpdateResponse">
+        <wsdl:part name="updateReturn" type="fmtypes:UpdateResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="UpdateRequest">
+        <wsdl:part name="updateMessage" type="fmtypes:UpdateMessage" />
+    </wsdl:message>
+
+    <wsdl:message name="CreateResponse">
+        <wsdl:part name="createReturn" type="fmtypes:CreateResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="CreateRequest">
+        <wsdl:part name="createMessage" type="fmtypes:CreateMessage" />
+    </wsdl:message>
+
+    <wsdl:portType name="FinanceServices">
+        <wsdl:operation name="read"
+            parameterOrder="readMessage">
+            <wsdl:input message="fmintf:ReadRequest"
+                name="readRequest" />
+            <wsdl:output message="fmintf:ReadResponse"
+                name="readResponse" />
+            <wsdl:fault message="fmintf:ProcessingErrorFault"
+                name="ProcessingErrorFault" />
+        </wsdl:operation>
+
+        <wsdl:operation name="update"
+            parameterOrder="updateMessage">
+            <wsdl:input message="fmintf:UpdateRequest"
+                name="updateRequest" />
+            <wsdl:output message="fmintf:UpdateResponse"
+                name="updateResponse" />
+            <wsdl:fault message="fmintf:ProcessingErrorFault"
+                name="ProcessingErrorFault" />
+        </wsdl:operation>
+
+        <wsdl:operation name="create"
+            parameterOrder="createMessage">
+            <wsdl:input message="fmintf:CreateRequest"
+                name="createRequest" />
+            <wsdl:output message="fmintf:CreateResponse"
+                name="createResponse" />
+            <wsdl:fault message="fmintf:ProcessingErrorFault"
+                name="ProcessingErrorFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="FinanceSoapBinding"
+        type="fmintf:FinanceServices">
+        <wsdlsoap:binding style="rpc"
+            transport="http://schemas.xmlsoap.org/soap/http" />
+
+        <wsdl:operation name="read">
+            <wsdlsoap:operation soapAction="" />
+            <wsdl:input name="readRequest">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:input>
+            <wsdl:output name="readResponse">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:output>
+            <wsdl:fault name="ProcessingErrorFault">
+                <wsdlsoap:fault name="ProcessingErrorFault"
+                    use="encoded" />
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="update">
+            <wsdlsoap:operation soapAction="" />
+            <wsdl:input name="updateRequest">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:input>
+            <wsdl:output name="updateResponse">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:output>
+            <wsdl:fault name="ProcessingErrorFault">
+                <wsdlsoap:fault name="ProcessingErrorFault"
+                    use="encoded" />
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="create">
+            <wsdlsoap:operation soapAction="" />
+            <wsdl:input name="createRequest">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:input>
+            <wsdl:output name="createResponse">
+                <wsdlsoap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="http://mercury.com/itg/fm/1.0" use="encoded" />
+            </wsdl:output>
+            <wsdl:fault name="ProcessingErrorFault">
+                <wsdlsoap:fault name="ProcessingErrorFault"
+                    use="encoded" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="FinanceServicesService">
+        <wsdl:port binding="fmintf:FinanceSoapBinding" name="Finance">
+            <wsdlsoap:address
+                location="http://localhost:8080/itg/services/Finance" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

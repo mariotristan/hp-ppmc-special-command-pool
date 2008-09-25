@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:dm="http://mercury.com/ppm/dm/1.0" xmlns:common="http://mercury.com/ppm/common/1.0" xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/dm/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="DemandService?xsd=xsd1" namespace="http://mercury.com/ppm/common/1.0" />
+  <xs:element name="Request" type="dm:Request" />
+  <xs:complexType name="Request">
+    <xs:sequence>
+      <xs:element name="id" nillable="true" type="xs:string" />
+      <xs:element name="requestType" type="xs:string" />
+      <xs:element maxOccurs="unbounded" name="simpleFields" nillable="true" type="dm:SimpleField" />
+      <xs:element maxOccurs="unbounded" name="tables" nillable="true" type="common:Table" />
+      <xs:element maxOccurs="unbounded" name="notes" nillable="true" type="common:Note" />
+      <xs:element maxOccurs="unbounded" name="URLReferences" nillable="true" type="dm:URLReference" />
+      <xs:element maxOccurs="unbounded" name="remoteReferences" nillable="true" type="dm:RemoteReference" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Identifier" type="dm:Identifier" />
+  <xs:complexType name="Identifier">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="serverURL" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Reference" type="dm:Reference" />
+  <xs:complexType name="Reference">
+    <xs:sequence>
+      <xs:element name="addedBy" nillable="true" type="xs:string" />
+      <xs:element name="creationDate" nillable="true" type="xs:dateTime" />
+      <xs:element name="description" nillable="true" type="xs:string" />
+      <xs:element name="name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RemoteReference" type="dm:RemoteReference" />
+  <xs:complexType name="RemoteReference">
+    <xs:complexContent mixed="false">
+      <xs:extension base="dm:Reference">
+        <xs:sequence>
+          <xs:element name="displayURL" nillable="true" type="xs:string" />
+          <xs:element name="identifier" nillable="true" type="dm:Identifier" />
+          <xs:element name="status" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RequestRemoteReference" type="dm:RequestRemoteReference" />
+  <xs:complexType name="RequestRemoteReference">
+    <xs:complexContent mixed="false">
+      <xs:extension base="dm:RemoteReference">
+        <xs:sequence>
+          <xs:element name="requestTypeName" nillable="true" type="xs:string" />
+          <xs:element name="relationType" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="URLReference" type="dm:URLReference" />
+  <xs:complexType name="URLReference">
+    <xs:complexContent mixed="false">
+      <xs:extension base="dm:Reference">
+        <xs:sequence>
+          <xs:element name="refURL" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SimpleField" type="dm:SimpleField" />
+  <xs:complexType name="SimpleField">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Field">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="stringValue" type="xs:string" />
+          <xs:element name="dateValue" nillable="true" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FieldChangeNote" type="dm:FieldChangeNote" />
+  <xs:complexType name="FieldChangeNote">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Note">
+        <xs:sequence>
+          <xs:element name="fieldPrompt" type="xs:string" />
+          <xs:element name="oldValue" type="xs:string" />
+          <xs:element name="newValue" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

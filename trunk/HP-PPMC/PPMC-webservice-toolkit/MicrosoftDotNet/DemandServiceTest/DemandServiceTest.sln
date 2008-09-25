@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemandServiceTest", "DemandServiceTest.csproj", "{91C2A957-AA21-48C6-8E2C-1D2A15A7FEBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91C2A957-AA21-48C6-8E2C-1D2A15A7FEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C2A957-AA21-48C6-8E2C-1D2A15A7FEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C2A957-AA21-48C6-8E2C-1D2A15A7FEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C2A957-AA21-48C6-8E2C-1D2A15A7FEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

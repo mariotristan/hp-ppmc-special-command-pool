@@ -1,0 +1,65 @@
+<wsdl:definitions xmlns:tmMsg="http://mercury.com/ppm/tm/msg/1.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ts="http://mercury.com/ppm/tm/service/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://mercury.com/ppm/tm/msg/1.0">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://mercury.com/ppm/tm/1.0" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/tm/service/1.0">
+			<xs:import namespace="http://mercury.com/ppm/tm/1.0" schemaLocation="../xsd/Time.xsd"/>
+			<xs:element name="getActualTime">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="param0" nillable="true" type="tm:TimeFilter"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getActualTimeResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="tm:WorkItemActualTime"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getActualTimeMessage">
+		<wsdl:part name="part1" element="ts:getActualTime"/>
+	</wsdl:message>
+	<wsdl:message name="getActualTimeResponseMessage">
+		<wsdl:part name="part1" element="ts:getActualTimeResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="TimeServicePortType">
+		<wsdl:operation name="getActualTime">
+			<wsdl:input message="tmMsg:getActualTimeMessage"/>
+			<wsdl:output message="tmMsg:getActualTimeResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TimeServiceSOAP11Binding" type="tmMsg:TimeServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getActualTime">
+			<soap:operation soapAction="urn:getActualTime" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TimeServiceSOAP12Binding" type="tmMsg:TimeServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="getActualTime">
+			<soap12:operation soapAction="urn:getActualTime" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TimeService">
+		<wsdl:port name="TimeServiceSOAP11port" binding="tmMsg:TimeServiceSOAP11Binding">
+			<soap:address location="http://localhost:8080/tmMsg/services/TimeService"/>
+		</wsdl:port>
+		<wsdl:port name="TimeServiceSOAP12port" binding="tmMsg:TimeServiceSOAP12Binding">
+			<soap12:address location="http://localhost:8080/tmMsg/services/TimeService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

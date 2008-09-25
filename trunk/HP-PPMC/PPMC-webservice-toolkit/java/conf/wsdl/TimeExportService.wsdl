@@ -1,0 +1,66 @@
+<wsdl:definitions xmlns:axis2="http://mercury.com/ppm/tm/msg/1.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ts="http://mercury.com/ppm/tm/service/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://mercury.com/ppm/tm/msg/1.0">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://mercury.com/ppm/tm/1.0" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/tm/service/1.0">
+			<xs:import namespace="http://mercury.com/ppm/tm/1.0" schemaLocation="../xsd/Time.xsd"/>
+			<xs:element name="updateActualTime">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="param0" minOccurs="0" maxOccurs="unbounded" nillable="true" type="tm:WorkItemActualTime"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="updateActualTimeResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="updateActualTimeMessage">
+		<wsdl:part name="part1" element="ts:updateActualTime"/>
+	</wsdl:message>
+	<wsdl:message name="updateActualTimeResponseMessage">
+		<wsdl:part name="part1" element="ts:updateActualTimeResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="TimeExportServicePortType">
+		<wsdl:operation name="updateActualTime">
+			<wsdl:input message="axis2:updateActualTimeMessage"/>
+			<wsdl:output message="axis2:updateActualTimeResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TimeExportServiceSOAP11Binding" type="axis2:TimeExportServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="updateActualTime">
+			<soap:operation soapAction="urn:updateActualTime" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TimeExportServiceSOAP12Binding" type="axis2:TimeExportServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="updateActualTime">
+			<soap12:operation soapAction="urn:updateActualTime" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/tm/msg/1.0"/>
+			</wsdl:output>
+			
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TimeExportService">
+		<wsdl:port name="TimeExportServiceSOAP11port" binding="axis2:TimeExportServiceSOAP11Binding">
+			<soap:address location="http://localhost:8080/axis2/services/TimeExportService"/>
+		</wsdl:port>
+		<wsdl:port name="TimeExportServiceSOAP12port" binding="axis2:TimeExportServiceSOAP12Binding">
+			<soap12:address location="http://localhost:8080/axis2/services/TimeExportService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

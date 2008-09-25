@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:pm="http://mercury.com/ppm/pm/1.0" xmlns:common="http://mercury.com/ppm/common/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/pm/1.0">
+  <xs:import schemaLocation="ProjectService?xsd=xsd1" namespace="http://mercury.com/ppm/common/1.0" />
+  <xs:complexType name="projectType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="projectName" type="xs:string" />
+      <xs:choice minOccurs="0">
+        <xs:element minOccurs="0" name="projectTypeName" type="xs:string" />
+        <xs:element minOccurs="0" name="projectTypeId" type="xs:long" />
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="projectManagerUserName" type="xs:string" />
+      <xs:element minOccurs="0" name="plannedStartPeriodFullName" type="xs:string" />
+      <xs:element minOccurs="0" name="plannedFinishPeriodFullName" type="xs:string" />
+      <xs:element minOccurs="0" name="regionName" type="xs:string" />
+      <xs:element minOccurs="0" name="staffingProfileName" type="xs:string" />
+      <xs:element minOccurs="0" name="budgetName" type="xs:string" />
+      <xs:element minOccurs="0" name="financialBenefitName" type="xs:string" />
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="simpleFields" type="pm:simpleFields" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="tables" type="common:Table" />
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="pmReferences" type="pm:pmReference" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notes" type="common:Note" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="fieldChangeNotes" type="pm:fieldChangeNote" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createProjectResultType">
+    <xs:sequence>
+      <xs:element name="projectId" type="xs:long" />
+      <xs:element name="requestId" type="xs:integer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="projectInputType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element minOccurs="0" name="projectName" type="xs:string" />
+        <xs:element minOccurs="0" name="projectId" type="xs:long" />
+        <xs:element minOccurs="0" name="requestId" type="xs:integer" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="workPlanInputType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="projectName" type="xs:string" />
+        <xs:element name="projectId" type="xs:long" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskAnchors">
+    <xs:sequence>
+      <xs:element name="topAnchor" type="pm:anchorType" />
+      <xs:element minOccurs="0" name="bottomAnchor" type="pm:anchorType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addTaskResultType">
+    <xs:sequence>
+      <xs:element name="taskSequenceNumber" type="xs:long" />
+      <xs:element name="taskId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="searchTaskPreferenceType">
+    <xs:sequence>
+      <xs:element name="startSearchPosition">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minInclusive value="1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="maximumTasksToShow">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minInclusive value="1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="taskNamePrefix" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="projectNames" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="resourceUserNames" type="xs:string" />
+      <xs:element minOccurs="0" name="includeFinishedTask" type="xs:boolean" />
+      <xs:element minOccurs="0" name="showOnlyExceptionTask" type="xs:boolean" />
+      <xs:element minOccurs="0" name="showOnlyMileStone" type="xs:boolean" />
+      <xs:element minOccurs="0" name="scheduledStartFrom" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="scheduledStartTo" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="scheduledFinishFrom" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="scheduledFinishTo" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateActualsInput">
+    <xs:sequence>
+      <xs:element name="taskId" type="xs:long" />
+      <xs:element name="assignment" type="pm:assignmentType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskType">
+    <xs:sequence>
+      <xs:element name="taskName" type="xs:string" />
+      <xs:element name="taskSequence" type="xs:long" />
+      <xs:element name="outlineLevel" type="xs:long" />
+      <xs:element minOccurs="0" name="taskStatus">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="in-progress" />
+            <xs:enumeration value="completed" />
+            <xs:enumeration value="in-planning" />
+            <xs:enumeration value="ready" />
+            <xs:enumeration value="on-hold" />
+            <xs:enumeration value="active" />
+            <xs:enumeration value="cancelled" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="description" type="xs:string" />
+      <xs:element minOccurs="0" name="priority" type="xs:long" />
+      <xs:element minOccurs="0" name="isMileStone" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isMajorMilestone" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isMilestoneAutomaticallyCompletes" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ismilestoneManualConversion" type="xs:boolean" />
+      <xs:element minOccurs="0" name="activity" type="pm:activityType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="owners" type="pm:resourceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="workUnits" type="pm:assignmentType" />
+      <xs:element minOccurs="0" name="actuals" type="pm:taskActualType" />
+      <xs:element minOccurs="0" name="roleBean" type="pm:roleInfo" />
+      <xs:element name="schedulingBean" type="pm:scheduleInfo" />
+      <xs:element minOccurs="0" name="costBean" type="pm:costInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="predecessors" type="pm:dependencyInfo" />
+      <xs:element minOccurs="0" name="notificationSetupBean" type="pm:notificationSetupInfo" />
+      <xs:element minOccurs="0" name="userData" type="pm:userDataInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="skillProficiencies" type="pm:skillProficiencyInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notes" type="pm:taskNoteInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="pmReferences" type="pm:pmReference" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskProperty">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="activityType">
+    <xs:sequence>
+      <xs:element name="activityId" type="xs:long" />
+      <xs:element minOccurs="0" name="activityName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resourceType">
+    <xs:sequence>
+      <xs:element name="resourceId" type="xs:long" />
+      <xs:element minOccurs="0" name="firstName" type="xs:string" />
+      <xs:element minOccurs="0" name="lastName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="schedulingBean" type="pm:scheduleInfo" />
+  <xs:complexType name="scheduleInfo">
+    <xs:sequence>
+      <xs:element name="scheduledDuration" type="xs:double" />
+      <xs:element name="scheduledEffort" type="xs:double" />
+      <xs:element name="scheduledStart" type="xs:dateTime" />
+      <xs:element name="scheduledFinish" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="constraintType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="as-soon-as-possible" />
+            <xs:enumeration value="as-late-as-possible" />
+            <xs:enumeration value="start-no-earlier-than" />
+            <xs:enumeration value="start-no-later-than" />
+            <xs:enumeration value="finish-no-earlier-than" />
+            <xs:enumeration value="finish-no-later-than" />
+            <xs:enumeration value="must-start-on" />
+            <xs:enumeration value="must-finish-on" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="constraintDate" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskActualType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="actualDuration" type="xs:double" />
+      <xs:element minOccurs="0" name="percentComplete" type="xs:double" />
+      <xs:element minOccurs="0" name="actualEffort" type="xs:double" />
+      <xs:element minOccurs="0" name="estimatedRemainingEffort" type="xs:double" />
+      <xs:element minOccurs="0" name="actualStart" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="estimatedFinish" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="actualFinish" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="moneyInfo">
+    <xs:sequence>
+      <xs:element name="localValue" type="xs:decimal" />
+      <xs:element name="localCurrencyCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="costBean" type="pm:costInfo" />
+  <xs:complexType name="costInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="actualCapLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="actualCapNonLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="actualOpLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="actualOpNonLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="plannedCapLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="plannedCapNonLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="plannedOpLaborMoney" type="pm:moneyInfo" />
+      <xs:element minOccurs="0" name="plannedOpNonLaborMoney" type="pm:moneyInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="roleInfo">
+    <xs:sequence>
+      <xs:element name="roleId" type="xs:long" />
+      <xs:element minOccurs="0" name="roleName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="predecessor" type="pm:dependencyInfo" />
+  <xs:complexType name="dependencyInfo">
+    <xs:sequence>
+      <xs:element name="predTaskSeq" type="xs:long" />
+      <xs:element name="predRelationType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="start-to-finish" />
+            <xs:enumeration value="finish-to-finish" />
+            <xs:enumeration value="start-to-start" />
+            <xs:enumeration value="finish-to-start" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="lagInDays" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="assignmentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="taskId" type="xs:long" />
+      <xs:element name="scheduledEffort" type="xs:double" />
+      <xs:element minOccurs="0" name="resource" type="pm:resourceType" />
+      <xs:element minOccurs="0" name="actualDuration" type="xs:double" />
+      <xs:element minOccurs="0" name="percentComplete">
+        <xs:simpleType>
+          <xs:restriction base="xs:double">
+            <xs:minInclusive value="0" />
+            <xs:maxInclusive value="100" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="actualEffort" type="xs:double" />
+      <xs:element minOccurs="0" name="estimatedRemainingEffort" type="xs:double" />
+      <xs:element minOccurs="0" name="actualStart" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="estimatedFinish" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="actualFinish" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="notificationSetupBean" type="pm:notificationSetupInfo" />
+  <xs:complexType name="notificationSetupInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="isNotifyResourcesBeforeStart" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isNotifyResourcesIfLate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isNotifyIfLate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isNotifyOnMilestone" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isNotifyOnException" type="xs:boolean" />
+      <xs:element minOccurs="0" name="notifyResourcesDaysBeforeStart" type="xs:int" />
+      <xs:element minOccurs="0" name="notifyResourcesIfLateFrequency" type="pm:frequencyInfo" />
+      <xs:element minOccurs="0" name="notifyIfLateByDays" type="xs:int" />
+      <xs:element minOccurs="0" name="notifyIfLateFrequency" type="pm:frequencyInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyIfLateResources" type="pm:resourceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyIfLateSecurityGroups" type="pm:securityGroupInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyOnMilestoneResources" type="pm:resourceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyOnMilestoneSecurityGroups" type="pm:securityGroupInfo" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyOnExceptionResources" type="pm:resourceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="notifyOnExceptionSecurityGroups" type="pm:securityGroupInfo" />
+      <xs:element name="notifyIfLateParticipants" type="pm:participantInfo" />
+      <xs:element name="notifyOnMilestoneParticipants" type="pm:participantInfo" />
+      <xs:element name="notifyOnExceptionParticipants" type="pm:participantInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="frequency" type="pm:frequencyInfo" />
+  <xs:simpleType name="frequencyInfo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Notify daily" />
+      <xs:enumeration value="Notify hourly" />
+      <xs:enumeration value="Notify immediately" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="participants" type="pm:participantInfo" />
+  <xs:complexType name="participantInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="participantType" nillable="true" type="pm:participantType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="participantType" type="pm:participantType" />
+  <xs:simpleType name="participantType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="StakeHolders" />
+      <xs:enumeration value="ProjectManagers" />
+      <xs:enumeration value="SummaryTaskOwners" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="securityGroupInfo">
+    <xs:sequence>
+      <xs:element name="groupId" type="xs:long" />
+      <xs:element name="groupName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="userData" type="pm:userDataInfo" />
+  <xs:complexType name="userDataInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="userData1" type="xs:string" />
+      <xs:element minOccurs="0" name="userData2" type="xs:string" />
+      <xs:element minOccurs="0" name="userData3" type="xs:string" />
+      <xs:element minOccurs="0" name="userData4" type="xs:string" />
+      <xs:element minOccurs="0" name="userData5" type="xs:string" />
+      <xs:element minOccurs="0" name="userData6" type="xs:string" />
+      <xs:element minOccurs="0" name="userData7" type="xs:string" />
+      <xs:element minOccurs="0" name="userData8" type="xs:string" />
+      <xs:element minOccurs="0" name="userData9" type="xs:string" />
+      <xs:element minOccurs="0" name="userData10" type="xs:string" />
+      <xs:element minOccurs="0" name="userData11" type="xs:string" />
+      <xs:element minOccurs="0" name="userData12" type="xs:string" />
+      <xs:element minOccurs="0" name="userData13" type="xs:string" />
+      <xs:element minOccurs="0" name="userData14" type="xs:string" />
+      <xs:element minOccurs="0" name="userData15" type="xs:string" />
+      <xs:element minOccurs="0" name="userData16" type="xs:string" />
+      <xs:element minOccurs="0" name="userData17" type="xs:string" />
+      <xs:element minOccurs="0" name="userData18" type="xs:string" />
+      <xs:element minOccurs="0" name="userData19" type="xs:string" />
+      <xs:element minOccurs="0" name="userData20" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData1" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData2" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData3" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData4" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData5" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData6" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData7" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData8" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData9" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData10" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData11" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData12" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData13" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData14" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData15" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData16" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData17" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData18" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData19" type="xs:string" />
+      <xs:element minOccurs="0" name="visUserData20" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="skillProficiencyInfo">
+    <xs:sequence>
+      <xs:element name="proficiencyLevel" type="xs:int" />
+      <xs:element name="skill" type="pm:skillInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="skill" type="pm:skillInfo" />
+  <xs:complexType name="skillInfo">
+    <xs:sequence>
+      <xs:element name="skillId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="anchor" type="pm:anchorType" />
+  <xs:complexType name="anchorType">
+    <xs:sequence>
+      <xs:element name="taskSequeceNumber" type="xs:int" />
+      <xs:element name="outLineLevel" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskNoteInfo">
+    <xs:sequence>
+      <xs:element name="noteText" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="pmReference" type="pm:pmReference" />
+  <xs:complexType name="pmReference">
+    <xs:sequence>
+      <xs:element name="targetTypeCode" type="xs:int" />
+      <xs:element name="relBehaviorCode">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="INFORMATIONAL" />
+            <xs:enumeration value="SUCCESSOR" />
+            <xs:enumeration value="PREDECESSOR" />
+            <xs:enumeration value="FF_PREDECESSOR" />
+            <xs:enumeration value="AUTO_UPDATE" />
+            <xs:enumeration value="UPDATED_BY_STEP" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="targetId" type="xs:int" />
+      <xs:element name="refRelationshipId" type="xs:int" />
+      <xs:element minOccurs="0" name="referenceName" type="xs:string" />
+      <xs:element minOccurs="0" name="refDescirption" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="field" type="pm:field" />
+  <xs:complexType name="field">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="simpleFields" type="pm:simpleFields" />
+  <xs:complexType name="simpleFields">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Field">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element maxOccurs="unbounded" name="stringValues" type="xs:string" />
+          <xs:element name="dateValue" type="xs:dateTime" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="fieldChangeNote" type="pm:fieldChangeNote" />
+  <xs:complexType name="fieldChangeNote">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Note">
+        <xs:sequence>
+          <xs:element name="fieldPrompt" type="xs:string" />
+          <xs:element name="oldValue" type="xs:string" />
+          <xs:element name="newValue" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xsd:schema>

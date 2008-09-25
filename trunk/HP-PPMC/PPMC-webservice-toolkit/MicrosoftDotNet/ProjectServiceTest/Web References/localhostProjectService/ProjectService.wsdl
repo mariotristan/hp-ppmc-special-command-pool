@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:pmMsg="http://mercury.com/ppm/pm/msg/1.0" xmlns:ns="http://mercury.com/ppm/pm/service/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://mercury.com/ppm/pm/msg/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>ProjectService</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema xmlns:pm="http://mercury.com/ppm/pm/1.0" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/pm/service/1.0">
+      <xs:import schemaLocation="ProjectService?xsd=xsd0" namespace="http://mercury.com/ppm/pm/1.0" />
+      <xs:element name="CreateProject">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="projectBean" type="pm:projectType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateProjectResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="return" nillable="true" type="pm:createProjectResultType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateProject">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="projectInput" type="pm:projectInputType" />
+            <xs:element name="projectBean" type="pm:projectType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateProjectResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ExecuteWorkflowTransition">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="projectInput" type="pm:projectInputType" />
+            <xs:element name="transition" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ExecuteWorkflowTransitionResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateBlankWorkPlan">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="projectInput" type="pm:workPlanInputType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateBlankWorkPlanResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateWorkPlanFromTemplate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="projectInput" type="pm:workPlanInputType" />
+            <xs:element name="templateName" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateWorkPlanFromTemplateResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddTasksToExistingWorkPlan">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="workPlanInput" type="pm:workPlanInputType" />
+            <xs:element maxOccurs="unbounded" name="tasks" type="pm:taskType" />
+            <xs:element name="anchors" type="pm:taskAnchors" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddTasksToExistingWorkPlanResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="return" nillable="true" type="pm:addTaskResultType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ImportWorkPlanTasks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="workPlanInput" type="pm:workPlanInputType" />
+            <xs:element maxOccurs="unbounded" name="tasks" type="pm:taskType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ImportWorkPlanTasksResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="return" nillable="true" type="pm:addTaskResultType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchTasks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="searchPreferences" type="pm:searchTaskPreferenceType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchTasksResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="taskId" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReadTasks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="taskId" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReadTasksResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="return" nillable="true" type="pm:taskType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateTaskActuals">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="assignments" type="pm:assignmentType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateTaskActualsResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="readTasksMessage">
+    <wsdl:part name="part1" element="ns:ReadTasks" />
+  </wsdl:message>
+  <wsdl:message name="readTasksResponseMessage">
+    <wsdl:part name="part1" element="ns:ReadTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="createBlankWorkPlanMessage">
+    <wsdl:part name="part1" element="ns:CreateBlankWorkPlan" />
+  </wsdl:message>
+  <wsdl:message name="createBlankWorkPlanResponseMessage">
+    <wsdl:part name="part1" element="ns:CreateBlankWorkPlanResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchTasksMessage">
+    <wsdl:part name="part1" element="ns:SearchTasks" />
+  </wsdl:message>
+  <wsdl:message name="searchTasksResponseMessage">
+    <wsdl:part name="part1" element="ns:SearchTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateTaskActualsMessage">
+    <wsdl:part name="part1" element="ns:UpdateTaskActuals" />
+  </wsdl:message>
+  <wsdl:message name="updateTaskActualsResponseMessage">
+    <wsdl:part name="part1" element="ns:UpdateTaskActualsResponse" />
+  </wsdl:message>
+  <wsdl:message name="executeWorkflowTransitionMessage">
+    <wsdl:part name="part1" element="ns:ExecuteWorkflowTransition" />
+  </wsdl:message>
+  <wsdl:message name="executeWorkflowTransitionResponseMessage">
+    <wsdl:part name="part1" element="ns:ExecuteWorkflowTransitionResponse" />
+  </wsdl:message>
+  <wsdl:message name="createWorkPlanFromTemplateMessage">
+    <wsdl:part name="part1" element="ns:CreateWorkPlanFromTemplate" />
+  </wsdl:message>
+  <wsdl:message name="createWorkPlanFromTemplateResponseMessage">
+    <wsdl:part name="part1" element="ns:CreateWorkPlanFromTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="addTasksToExistingWorkPlanMessage">
+    <wsdl:part name="part1" element="ns:AddTasksToExistingWorkPlan" />
+  </wsdl:message>
+  <wsdl:message name="addTasksToExistingWorkPlanResponseMessage">
+    <wsdl:part name="part1" element="ns:AddTasksToExistingWorkPlanResponse" />
+  </wsdl:message>
+  <wsdl:message name="createProjectMessage">
+    <wsdl:part name="part1" element="ns:CreateProject" />
+  </wsdl:message>
+  <wsdl:message name="createProjectResponseMessage">
+    <wsdl:part name="part1" element="ns:CreateProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateProjectMessage">
+    <wsdl:part name="part1" element="ns:UpdateProject" />
+  </wsdl:message>
+  <wsdl:message name="updateProjectResponseMessage">
+    <wsdl:part name="part1" element="ns:UpdateProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="importWorkPlanTasksMessage">
+    <wsdl:part name="part1" element="ns:ImportWorkPlanTasks" />
+  </wsdl:message>
+  <wsdl:message name="importWorkPlanTasksResponseMessage">
+    <wsdl:part name="part1" element="ns:ImportWorkPlanTasksResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ProjectServicePortType">
+    <wsdl:operation name="readTasks">
+      <wsdl:input wsaw:Action="urn:readTasks" message="pmMsg:readTasksMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/readTasksResponse" message="pmMsg:readTasksResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createBlankWorkPlan">
+      <wsdl:input wsaw:Action="urn:createBlankWorkPlan" message="pmMsg:createBlankWorkPlanMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/createBlankWorkPlanResponse" message="pmMsg:createBlankWorkPlanResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="searchTasks">
+      <wsdl:input wsaw:Action="urn:searchTasks" message="pmMsg:searchTasksMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/searchTasksResponse" message="pmMsg:searchTasksResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updateTaskActuals">
+      <wsdl:input wsaw:Action="urn:updateTaskActuals" message="pmMsg:updateTaskActualsMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/updateTaskActualsResponse" message="pmMsg:updateTaskActualsResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="executeWorkflowTransition">
+      <wsdl:input wsaw:Action="urn:executeWorkflowTransition" message="pmMsg:executeWorkflowTransitionMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/executeWorkflowTransitionResponse" message="pmMsg:executeWorkflowTransitionResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createWorkPlanFromTemplate">
+      <wsdl:input wsaw:Action="urn:createWorkPlanFromTemplate" message="pmMsg:createWorkPlanFromTemplateMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/createWorkPlanFromTemplateResponse" message="pmMsg:createWorkPlanFromTemplateResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="addTasksToExistingWorkPlan">
+      <wsdl:input wsaw:Action="urn:addTasksToExistingWorkPlan" message="pmMsg:addTasksToExistingWorkPlanMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/addTasksToExistingWorkPlanResponse" message="pmMsg:addTasksToExistingWorkPlanResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createProject">
+      <wsdl:input wsaw:Action="urn:createProject" message="pmMsg:createProjectMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/createProjectResponse" message="pmMsg:createProjectResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updateProject">
+      <wsdl:input wsaw:Action="urn:updateProject" message="pmMsg:updateProjectMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/updateProjectResponse" message="pmMsg:updateProjectResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="importWorkPlanTasks">
+      <wsdl:input wsaw:Action="urn:importWorkPlanTasks" message="pmMsg:importWorkPlanTasksMessage" />
+      <wsdl:output wsaw:Action="http://mercury.com/ppm/pm/msg/1.0/ProjectServicePortType/importWorkPlanTasksResponse" message="pmMsg:importWorkPlanTasksResponseMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProjectServiceSOAP11Binding" type="pmMsg:ProjectServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="readTasks">
+      <soap:operation soapAction="urn:readTasks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createBlankWorkPlan">
+      <soap:operation soapAction="urn:createBlankWorkPlan" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchTasks">
+      <soap:operation soapAction="urn:searchTasks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTaskActuals">
+      <soap:operation soapAction="urn:updateTaskActuals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeWorkflowTransition">
+      <soap:operation soapAction="urn:executeWorkflowTransition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWorkPlanFromTemplate">
+      <soap:operation soapAction="urn:createWorkPlanFromTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTasksToExistingWorkPlan">
+      <soap:operation soapAction="urn:addTasksToExistingWorkPlan" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createProject">
+      <soap:operation soapAction="urn:createProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateProject">
+      <soap:operation soapAction="urn:updateProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="importWorkPlanTasks">
+      <soap:operation soapAction="urn:importWorkPlanTasks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProjectServiceSOAP12Binding" type="pmMsg:ProjectServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="readTasks">
+      <soap12:operation soapAction="urn:readTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createBlankWorkPlan">
+      <soap12:operation soapAction="urn:createBlankWorkPlan" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchTasks">
+      <soap12:operation soapAction="urn:searchTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTaskActuals">
+      <soap12:operation soapAction="urn:updateTaskActuals" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeWorkflowTransition">
+      <soap12:operation soapAction="urn:executeWorkflowTransition" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWorkPlanFromTemplate">
+      <soap12:operation soapAction="urn:createWorkPlanFromTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTasksToExistingWorkPlan">
+      <soap12:operation soapAction="urn:addTasksToExistingWorkPlan" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createProject">
+      <soap12:operation soapAction="urn:createProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateProject">
+      <soap12:operation soapAction="urn:updateProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="importWorkPlanTasks">
+      <soap12:operation soapAction="urn:importWorkPlanTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProjectServiceHttpBinding" type="pmMsg:ProjectServicePortType">
+    <http:binding verb="POST" />
+    <wsdl:operation name="readTasks">
+      <http:operation location="readTasks" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createBlankWorkPlan">
+      <http:operation location="createBlankWorkPlan" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchTasks">
+      <http:operation location="searchTasks" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTaskActuals">
+      <http:operation location="updateTaskActuals" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeWorkflowTransition">
+      <http:operation location="executeWorkflowTransition" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWorkPlanFromTemplate">
+      <http:operation location="createWorkPlanFromTemplate" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTasksToExistingWorkPlan">
+      <http:operation location="addTasksToExistingWorkPlan" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createProject">
+      <http:operation location="createProject" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateProject">
+      <http:operation location="updateProject" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="importWorkPlanTasks">
+      <http:operation location="importWorkPlanTasks" />
+      <wsdl:input>
+        <mime:content type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProjectService">
+    <wsdl:port name="ProjectServiceSOAP11port_http" binding="pmMsg:ProjectServiceSOAP11Binding">
+      <soap:address location="http://localhost:8080/itg/ppmservices/ProjectService" />
+    </wsdl:port>
+    <wsdl:port name="ProjectServiceSOAP12port_http" binding="pmMsg:ProjectServiceSOAP12Binding">
+      <soap12:address location="http://localhost:8080/itg/ppmservices/ProjectService" />
+    </wsdl:port>
+    <wsdl:port name="ProjectServiceHttpport1" binding="pmMsg:ProjectServiceHttpBinding">
+      <http:address location="http://localhost:8080/itg/ppmrest/ProjectService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

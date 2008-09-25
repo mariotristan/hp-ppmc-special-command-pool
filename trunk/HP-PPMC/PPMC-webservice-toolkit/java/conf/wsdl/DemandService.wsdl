@@ -1,0 +1,281 @@
+<wsdl:definitions xmlns:dmMsg="http://mercury.com/ppm/dm/msg/1.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ds="http://mercury.com/ppm/dm/service/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://mercury.com/ppm/dm/msg/1.0">
+<wsdl:documentation>DemandService</wsdl:documentation> 
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dm="http://mercury.com/ppm/dm/1.0" xmlns:common="http://mercury.com/ppm/common/1.0" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/dm/service/1.0">
+			<xs:import namespace="http://mercury.com/ppm/dm/1.0" schemaLocation="../xsd/Demand.xsd"/>
+			<xs:element name="createRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requestObj" type="dm:Request"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="createRequestResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="dm:RemoteReference"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getRequests">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="requestIds" nillable="true" type="dm:Identifier"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getRequestsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="return" nillable="true" type="dm:Request"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addRequestNotes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requestId" type="dm:Identifier"/>
+						<xs:element maxOccurs="unbounded" name="notes" type="common:Note"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addRequestNotesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deleteRequests">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="requestIds" type="dm:Identifier"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deleteRequestsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setRequestRemoteReferenceStatus">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="receiver" type="dm:Identifier"/>
+						<xs:element name="source" type="dm:Identifier"/>
+						<xs:element name="status" type="xs:string"/>
+						<xs:element maxOccurs="unbounded" name="fields" nillable="true" type="dm:SimpleField"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setRequestRemoteReferenceStatusResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setRequestFields">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requestId" type="dm:Identifier"/>
+						<xs:element maxOccurs="unbounded" name="fields" type="dm:SimpleField"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setRequestFieldsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" nillable="true" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="createRequestMessage">
+		<wsdl:part name="part1" element="ds:createRequest"/>
+	</wsdl:message>
+	<wsdl:message name="createRequestResponseMessage">
+		<wsdl:part name="part1" element="ds:createRequestResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getRequestsMessage">
+		<wsdl:part name="part1" element="ds:getRequests"/>
+	</wsdl:message>
+	<wsdl:message name="getRequestsResponseMessage">
+		<wsdl:part name="part1" element="ds:getRequestsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addRequestNotesMessage">
+		<wsdl:part name="part1" element="ds:addRequestNotes"/>
+	</wsdl:message>
+	<wsdl:message name="addRequestNotesResponseMessage">
+		<wsdl:part name="part1" element="ds:addRequestNotesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="deleteRequestsMessage">
+		<wsdl:part name="part1" element="ds:deleteRequests"/>
+	</wsdl:message>
+	<wsdl:message name="deleteRequestsResponseMessage">
+		<wsdl:part name="part1" element="ds:deleteRequestsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="setRequestRemoteReferenceStatusMessage">
+		<wsdl:part name="part1" element="ds:setRequestRemoteReferenceStatus"/>
+	</wsdl:message>
+	<wsdl:message name="setRequestRemoteReferenceStatusResponseMessage">
+		<wsdl:part name="part1" element="ds:setRequestRemoteReferenceStatusResponse"/>
+	</wsdl:message>
+	<wsdl:message name="setRequestFieldsMessage">
+		<wsdl:part name="part1" element="ds:setRequestFields"/>
+	</wsdl:message>
+	<wsdl:message name="setRequestFieldsResponseMessage">
+		<wsdl:part name="part1" element="ds:setRequestFieldsResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="DemandServicePortType">
+		<wsdl:operation name="createRequest">
+			<wsdl:input message="dmMsg:createRequestMessage"/>
+			<wsdl:output message="dmMsg:createRequestResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getRequests">
+			<wsdl:input message="dmMsg:getRequestsMessage"/>
+			<wsdl:output message="dmMsg:getRequestsResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="addRequestNotes">
+			<wsdl:input message="dmMsg:addRequestNotesMessage"/>
+			<wsdl:output message="dmMsg:addRequestNotesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="deleteRequests">
+			<wsdl:input message="dmMsg:deleteRequestsMessage"/>
+			<wsdl:output message="dmMsg:deleteRequestsResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestRemoteReferenceStatus">
+			<wsdl:input message="dmMsg:setRequestRemoteReferenceStatusMessage"/>
+			<wsdl:output message="dmMsg:setRequestRemoteReferenceStatusResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestFields">
+			<wsdl:input message="dmMsg:setRequestFieldsMessage"/>
+			<wsdl:output message="dmMsg:setRequestFieldsResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DemandServiceSOAP11Binding" type="dmMsg:DemandServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createRequest">
+			<soap:operation soapAction="urn:createRequest" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getRequests">
+			<soap:operation soapAction="urn:getRequests" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addRequestNotes">
+			<soap:operation soapAction="urn:addRequestNotes" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteRequests">
+			<soap:operation soapAction="urn:deleteRequests" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestRemoteReferenceStatus">
+			<soap:operation soapAction="urn:setRequestRemoteReferenceStatus" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestFields">
+			<soap:operation soapAction="urn:setRequestFields" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="DemandServiceSOAP12Binding" type="dmMsg:DemandServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="createRequest">
+			<soap12:operation soapAction="urn:createRequest" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getRequests">
+			<soap12:operation soapAction="urn:getRequests" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addRequestNotes">
+			<soap12:operation soapAction="urn:addRequestNotes" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteRequests">
+			<soap12:operation soapAction="urn:deleteRequests" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestRemoteReferenceStatus">
+			<soap12:operation soapAction="urn:setRequestRemoteReferenceStatus" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="setRequestFields">
+			<soap12:operation soapAction="urn:setRequestFields" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/dm/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DemandService">
+		<wsdl:port name="DemandServiceSOAP11port" binding="dmMsg:DemandServiceSOAP11Binding">
+			<soap:address location="http://blixepm0:8080/itg/ppmservices/DemandService"/>
+		</wsdl:port>
+		<wsdl:port name="DemandServiceSOAP12port" binding="dmMsg:DemandServiceSOAP12Binding">
+			<soap12:address location="http://localhost:8080/itg/ppmservices/DemandService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
