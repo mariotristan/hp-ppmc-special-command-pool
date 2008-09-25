@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:BpmnDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:bpmn="http://stp.eclipse.org/bpmn" xmi:id="_kMDs4IrWEd2a6MtYvT5k7g" iD="_kL6i8IrWEd2a6MtYvT5k7g">
+  <artifacts xmi:type="bpmn:TextAnnotation" xmi:id="_keG6oYrgEd2H84bOzg0W1g" iD="_keG6oIrgEd2H84bOzg0W1g" name="zwischenspeichern [ROLLE] in [ZWISCHENSPEICHER]&#xD;&#xA;speichern [SYS.USER_ID] in [ASSIGNED_TO_USER]">
+    <associations xmi:type="bpmn:Association" xmi:id="_lPR44IrgEd2H84bOzg0W1g" target="_avrtg4rgEd2H84bOzg0W1g"/>
+  </artifacts>
+  <pools xmi:type="bpmn:Pool" xmi:id="_kMgY0YrWEd2a6MtYvT5k7g" iD="_kMgY0IrWEd2a6MtYvT5k7g" name="PROZESS">
+    <artifacts xmi:type="bpmn:TextAnnotation" xmi:id="_FP4uoYrhEd2H84bOzg0W1g" iD="_FP4uoIrhEd2H84bOzg0W1g" name="zurückspeichern [ZWISCHENSPEICHER] in [ROLLE]&#xD;&#xA;leeren [ASSIGNED_TO_USER]">
+      <associations xmi:type="bpmn:Association" xmi:id="_FtQAEIrhEd2H84bOzg0W1g" target="_3ubUw4rgEd2H84bOzg0W1g"/>
+    </artifacts>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_Ua0dMYrgEd2H84bOzg0W1g" iD="_Ua0dMIrgEd2H84bOzg0W1g" outgoingEdges="_VxPdkYrgEd2H84bOzg0W1g" name="Annehmen"/>
+    <vertices xmi:type="bpmn:Activity" xmi:id="_U6QyQYrgEd2H84bOzg0W1g" iD="_U6QyQIrgEd2H84bOzg0W1g" outgoingEdges="_4oP4sYrgEd2H84bOzg0W1g" incomingEdges="_0DJV0YrgEd2H84bOzg0W1g" name="Abgeben"/>
+    <vertices xmi:type="bpmn:SubProcess" xmi:id="_avrtgYrgEd2H84bOzg0W1g" iD="_avrtgIrgEd2H84bOzg0W1g" outgoingEdges="_0DJV0YrgEd2H84bOzg0W1g" incomingEdges="_VxPdkYrgEd2H84bOzg0W1g">
+      <vertices xmi:type="bpmn:Activity" xmi:id="_avrtg4rgEd2H84bOzg0W1g" iD="_avrtgorgEd2H84bOzg0W1g" associations="_lPR44IrgEd2H84bOzg0W1g" name="Verarbeitung&#xD;&#xA; Annehmen"/>
+    </vertices>
+    <vertices xmi:type="bpmn:SubProcess" xmi:id="_3ubUwYrgEd2H84bOzg0W1g" iD="_3ubUwIrgEd2H84bOzg0W1g" incomingEdges="_4oP4sYrgEd2H84bOzg0W1g">
+      <vertices xmi:type="bpmn:Activity" xmi:id="_3ubUw4rgEd2H84bOzg0W1g" iD="_3ubUworgEd2H84bOzg0W1g" associations="_FtQAEIrhEd2H84bOzg0W1g" name="Verarbeitung&#xD;&#xA;Abgeben"/>
+    </vertices>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_VxPdkYrgEd2H84bOzg0W1g" iD="_VxPdkIrgEd2H84bOzg0W1g" name="Annehmen" source="_Ua0dMYrgEd2H84bOzg0W1g" target="_avrtgYrgEd2H84bOzg0W1g"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_0DJV0YrgEd2H84bOzg0W1g" iD="_0DJV0IrgEd2H84bOzg0W1g" name="succeeded" source="_avrtgYrgEd2H84bOzg0W1g" target="_U6QyQYrgEd2H84bOzg0W1g"/>
+    <sequenceEdges xmi:type="bpmn:SequenceEdge" xmi:id="_4oP4sYrgEd2H84bOzg0W1g" iD="_4oP4sIrgEd2H84bOzg0W1g" name="abgeben" source="_U6QyQYrgEd2H84bOzg0W1g" target="_3ubUwYrgEd2H84bOzg0W1g"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_5fzBMYrfEd2H84bOzg0W1g" iD="_5fzBMIrfEd2H84bOzg0W1g" name="ASSIGNED_TO_USER"/>
+    <lanes xmi:type="bpmn:Lane" xmi:id="_Cv0bEYrgEd2H84bOzg0W1g" iD="_Cv0bEIrgEd2H84bOzg0W1g" name="ASSIGNED_TO_GROUP"/>
+  </pools>
+</bpmn:BpmnDiagram>
