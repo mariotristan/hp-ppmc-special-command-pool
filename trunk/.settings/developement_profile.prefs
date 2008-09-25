@@ -1,0 +1,9 @@
+#Tue Aug 12 08:35:49 CEST 2008
+deploy_bundleShouldBeArchived=true
+deploy_bundleShouldBeDeployed=true
+deploy_serverUrl=http\://localhost\:8080/ui-fw
+deploy_workflow_serverUrl=http\://localhost\:8080/wds
+deploy_workflowbundleShouldBeArchived=true
+deploy_workflowbundleShouldBeDeployed=true
+diagram_baseUri=http\://beteo.ch
+eclipse.preferences.version=1
