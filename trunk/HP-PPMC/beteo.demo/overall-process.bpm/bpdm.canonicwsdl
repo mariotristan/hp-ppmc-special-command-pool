@@ -1,0 +1,2 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://schemas.xmlsoap.org/ws/2004/03/partner-link/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://schemas.xmlsoap.org/ws/2004/03/business-process/" xmlns:bpdm="http://www.intalio/designer/business-process-data-modeling" xmlns:diag="http://thisdiagram" targetNamespace="http://thisdiagram" version="5001043" bpdm:canid="_Amfe4Gg1Ed2mxYp1WDY1Pw" bpdm:displayName="diag"></wsdl:definitions>
