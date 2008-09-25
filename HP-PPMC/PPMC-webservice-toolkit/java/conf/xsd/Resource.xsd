@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:rm="http://mercury.com/ppm/rm/1.0" xmlns:common="http://mercury.com/ppm/common/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mercury.com/ppm/rm/1.0" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+	<import namespace="http://mercury.com/ppm/common/1.0" schemaLocation="../xsd/Common.xsd"/>
+
+ 	<!--  ResourcePoolSearchFilter  -->
+	<xs:complexType name="ResourcePoolSearchFilter">
+		<xs:sequence>
+			<xs:element name="name" nillable="true" type="xs:string"/>
+			<xs:element name="description" nillable="true" type="xs:string"/>
+			<xs:element name="parent" nillable="true" type="rm:ResourcePoolReference"/>
+			<xs:element name="manager" nillable="true" type="rm:ResourceReference"/>
+			<xs:element name="region" nillable="true" type="rm:RegionReference"/>
+			<xs:element name="orgUnit" nillable="true" type="rm:OrgUnitReference"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourcePool  -->
+	<xs:element name="ResourcePool" type="rm:ResourcePool"/>
+	<xs:complexType name="ResourcePool">
+		<xs:sequence>
+			<xs:element name="id" nillable="true" type="xs:long"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="description" nillable="true" type="xs:string"/>
+			<xs:element name="parent" nillable="true" type="rm:ResourcePoolReference"/>
+			<xs:element name="region" type="rm:RegionReference"/>
+			<xs:element name="orgUnit" nillable="true" type="rm:OrgUnitReference"/>
+			<xs:element name="manager" type="rm:ResourceReference" nillable="true" minOccurs="0" maxOccurs="unbounded"/>			
+			<xs:element name="note" type="common:Note" nillable="true" minOccurs="0" maxOccurs="unbounded"/>			
+			<xs:element name="child" type="rm:ResourcePoolReference" nillable="true" minOccurs="0" maxOccurs="unbounded"/>			
+			<xs:element name="ACEs" type="rm:ResourcePoolAccessControlBean" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourcePoolAccessControlBean  -->
+	<xs:element name="ResourcePoolAccessControlBean" type="rm:ResourcePoolAccessControlBean"/>
+	<xs:complexType name="ResourcePoolAccessControlBean">
+		<xs:sequence>
+			<xs:element name="user" type="rm:ResourceReference"/>
+			<xs:element name="canEditHeader" nillable="true" type="xs:boolean"/>
+			<xs:element name="canEditUnnamedHeadCount" nillable="true" type="xs:boolean"/>
+			<xs:element name="canEditSecurity" nillable="true" type="xs:boolean"/>
+			<xs:element name="isReadOnly" nillable="true" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourceParticipation  -->
+	<xs:element name="ResourceParticipation" type="rm:ResourceParticipation"/>
+	<xs:complexType name="ResourceParticipation">
+		<xs:sequence>
+			<xs:element name="resource" type="rm:ResourceReference"/>
+			<xs:element name="distributionGroup" type="rm:ResourceDistributionGroup" minOccurs="0" maxOccurs="unbounded"/>			
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourceDistributionGroup  -->
+	<xs:element name="ResourceDistributionGroup" type="rm:ResourceDistributionGroup"/>
+	<xs:complexType name="ResourceDistributionGroup">
+		<xs:sequence>
+			<xs:element name="start" type="xs:dateTime"/>
+			<xs:element name="distribution" type="rm:ResourcePoolDistribution" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourcePoolDistribution  -->
+	<xs:element name="ResourcePoolDistribution" type="rm:ResourcePoolDistribution"/>
+	<xs:complexType name="ResourcePoolDistribution">
+		<xs:sequence>
+			<xs:element name="resourcePool" type="rm:ResourcePoolReference"/>
+			<xs:element name="percent" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourcePoolReference  -->
+	<xs:element name="ResourcePoolReference" type="rm:ResourcePoolReference" />
+	<xs:complexType name="ResourcePoolReference">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" nillable="true" />
+			<xs:element name="name" type="xs:string" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResourceReference  -->
+	<xs:element name="ResourceReference" type="rm:ResourceReference" />
+	<xs:complexType name="ResourceReference">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" nillable="true" />
+			<xs:element name="name" type="xs:string" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  OrgUnitReference  -->
+	<xs:element name="OrgUnitReference" type="rm:OrgUnitReference" />
+	<xs:complexType name="OrgUnitReference">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" nillable="true" />
+			<xs:element name="name" type="xs:string" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  RegionReference  -->
+	<xs:element name="RegionReference" type="rm:RegionReference" />
+	<xs:complexType name="RegionReference">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" nillable="true" />
+			<xs:element name="name" type="xs:string" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>	
+ 
+</schema>
+

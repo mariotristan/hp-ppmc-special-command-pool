@@ -1,0 +1,332 @@
+<wsdl:definitions xmlns:fmMsg="http://mercury.com/ppm/fm/msg/1.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:fs="http://mercury.com/ppm/fm/service/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://mercury.com/ppm/fm/msg/1.0">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fm="http://mercury.com/ppm/fm/1.0" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/fm/service/1.0">
+			<xs:import namespace="http://mercury.com/ppm/fm/1.0" schemaLocation="../xsd/Finance.xsd"/>
+			<!--  Create Cost Rules types  -->
+			<xs:element name="createCostRules">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRule" nillable="true" type="fm:CostRule"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="createCostRulesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRule" nillable="true" type="fm:CostRule"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--  Search Cost Rules types  -->
+			<xs:element name="searchCostRules">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="filter" type="fm:CostRuleSearchFilter"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="searchCostRulesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRule" nillable="true" type="fm:CostRule"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--  Get Cost Rules types  -->
+			<xs:element name="getCostRules">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRuleId" nillable="true" type="xs:long"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCostRulesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRule" nillable="true" type="fm:CostRule"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--  Update Cost Rules types  -->
+			<xs:element name="updateCostRules">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRule" nillable="true" type="fm:CostRule"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="updateCostRulesResponse"/>
+			<!--  Delete Cost Rules types  -->
+			<xs:element name="deleteCostRules">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costRuleId" nillable="true" type="xs:long"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deleteCostRulesResponse"/>
+			<!--  Get Cost Factors types  -->
+			<xs:element name="getCostFactors">
+				<xs:complexType>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCostFactorsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costFactor" nillable="true" type="fm:CostFactor"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--  Set Cost Factors types  -->
+			<xs:element name="setCostFactors">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="costFactor" nillable="true" type="fm:CostFactor"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setCostFactorsResponse"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="createCostRulesMessage">
+		<wsdl:part name="part1" element="fs:createCostRules"/>
+	</wsdl:message>
+	<wsdl:message name="createCostRulesResponseMessage">
+		<wsdl:part name="part1" element="fs:createCostRulesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="searchCostRulesMessage">
+		<wsdl:part name="part1" element="fs:searchCostRules"/>
+	</wsdl:message>
+	<wsdl:message name="searchCostRulesResponseMessage">
+		<wsdl:part name="part1" element="fs:searchCostRulesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getCostRulesMessage">
+		<wsdl:part name="part1" element="fs:getCostRules"/>
+	</wsdl:message>
+	<wsdl:message name="getCostRulesResponseMessage">
+		<wsdl:part name="part1" element="fs:getCostRulesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="updateCostRulesMessage">
+		<wsdl:part name="part1" element="fs:updateCostRules"/>
+	</wsdl:message>
+	<wsdl:message name="updateCostRulesResponseMessage">
+		<wsdl:part name="part1" element="fs:updateCostRulesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="deleteCostRulesMessage">
+		<wsdl:part name="part1" element="fs:deleteCostRules"/>
+	</wsdl:message>
+	<wsdl:message name="deleteCostRulesResponseMessage">
+		<wsdl:part name="part1" element="fs:deleteCostRulesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getCostFactorsMessage">
+		<wsdl:part name="part1" element="fs:getCostFactors"/>
+	</wsdl:message>
+	<wsdl:message name="getCostFactorsResponseMessage">
+		<wsdl:part name="part1" element="fs:getCostFactorsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="setCostFactorsMessage">
+		<wsdl:part name="part1" element="fs:setCostFactors"/>
+	</wsdl:message>
+	<wsdl:message name="setCostFactorsResponseMessage">
+		<wsdl:part name="part1" element="fs:setCostFactorsResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="FinanceServicePortType">
+		<!--  Create Cost Rules operation  -->
+		<wsdl:operation name="createCostRules">
+			<wsdl:input message="fmMsg:createCostRulesMessage"/>
+			<wsdl:output message="fmMsg:createCostRulesResponseMessage"/>
+		</wsdl:operation>
+		<!--  Search Cost Rules operation  -->
+		<wsdl:operation name="searchCostRules">
+			<wsdl:input message="fmMsg:searchCostRulesMessage"/>
+			<wsdl:output message="fmMsg:searchCostRulesResponseMessage"/>
+		</wsdl:operation>
+		<!--  Get Cost Rules operation  -->
+		<wsdl:operation name="getCostRules">
+			<wsdl:input message="fmMsg:getCostRulesMessage"/>
+			<wsdl:output message="fmMsg:getCostRulesResponseMessage"/>
+		</wsdl:operation>
+		<!--  Update Cost Rules operation  -->
+		<wsdl:operation name="updateCostRules">
+			<wsdl:input message="fmMsg:updateCostRulesMessage"/>
+			<wsdl:output message="fmMsg:updateCostRulesResponseMessage"/>
+		</wsdl:operation>
+		<!--  Delete Cost Rules operation  -->
+		<wsdl:operation name="deleteCostRules">
+			<wsdl:input message="fmMsg:deleteCostRulesMessage"/>
+			<wsdl:output message="fmMsg:deleteCostRulesResponseMessage"/>
+		</wsdl:operation>
+		<!--  Get Cost Factors operation  -->
+		<wsdl:operation name="getCostFactors">
+			<wsdl:input message="fmMsg:getCostFactorsMessage"/>
+			<wsdl:output message="fmMsg:getCostFactorsResponseMessage"/>
+		</wsdl:operation>
+		<!--  Set Cost Factors operation  -->
+		<wsdl:operation name="setCostFactors">
+			<wsdl:input message="fmMsg:setCostFactorsMessage"/>
+			<wsdl:output message="fmMsg:setCostFactorsResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="FinanceServiceSOAP11Binding" type="fmMsg:FinanceServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!--  Create Cost Rules operation  -->
+		<wsdl:operation name="createCostRules">
+			<soap:operation soapAction="urn:createCostRules" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Search Cost Rules operation  -->
+		<wsdl:operation name="searchCostRules">
+			<soap:operation soapAction="urn:searchCostRules" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Cost Rules operation  -->
+		<wsdl:operation name="getCostRules">
+			<soap:operation soapAction="urn:getCostRules" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Update Cost Rules operation  -->
+		<wsdl:operation name="updateCostRules">
+			<soap:operation soapAction="urn:updateCostRules" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Delete Cost Rules operation  -->
+		<wsdl:operation name="deleteCostRules">
+			<soap:operation soapAction="urn:deleteCostRules" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Cost Factors operation  -->
+		<wsdl:operation name="getCostFactors">
+			<soap:operation soapAction="urn:getCostFactors" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Set Cost Factors operation  -->
+		<wsdl:operation name="setCostFactors">
+			<soap:operation soapAction="urn:setCostFactors" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="FinanceServiceSOAP12Binding" type="fmMsg:FinanceServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<!--  Create Cost Rules operation  -->
+		<wsdl:operation name="createCostRules">
+			<soap12:operation soapAction="urn:createCostRules" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Search Cost Rules operation  -->
+		<wsdl:operation name="searchCostRules">
+			<soap12:operation soapAction="urn:searchCostRules" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Cost Rules operation  -->
+		<wsdl:operation name="getCostRules">
+			<soap12:operation soapAction="urn:getCostRules" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Update Cost Rules operation  -->
+		<wsdl:operation name="updateCostRules">
+			<soap12:operation soapAction="urn:updateCostRules" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Delete Cost Rules operation  -->
+		<wsdl:operation name="deleteCostRules">
+			<soap12:operation soapAction="urn:deleteCostRules" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Cost Factors operation 	-->
+		<wsdl:operation name="getCostFactors">
+			<soap12:operation soapAction="urn:getCostFactors" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Set Cost Factors operation  -->
+		<wsdl:operation name="setCostFactors">
+			<soap12:operation soapAction="urn:setCostFactors" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/fm/msg/1.0"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="FinanceService">
+		<wsdl:port name="FinanceServiceSOAP11port" binding="fmMsg:FinanceServiceSOAP11Binding">
+			<soap:address location="http://localhost:8080/itg/ppmservices/FinanceService"/>
+		</wsdl:port>
+		<wsdl:port name="FinanceServiceSOAP12port" binding="fmMsg:FinanceServiceSOAP12Binding">
+			<soap12:address location="http://localhost:8080/itg/ppmservices/FinanceService"/>
+		</wsdl:port>
+	</wsdl:service>
+	<!--  Create Cost Rules messages  -->
+	<!--  Search Cost Rules messages  -->
+	<!--  Get Cost Rules messages  -->
+	<!--  Update Cost Rules messages  -->
+	<!--  Delete Cost Rules messages  -->
+	<!--  Get Cost Factors messages  -->
+	<!--  Set Cost Factors messages  -->
+</wsdl:definitions>
+

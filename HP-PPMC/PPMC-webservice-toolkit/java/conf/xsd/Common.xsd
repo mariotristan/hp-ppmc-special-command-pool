@@ -1,0 +1,55 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:common="http://mercury.com/ppm/common/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mercury.com/ppm/common/1.0" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<!-- used for auditing -->
+	<element name="AuditHeader" type="common:AuditHeader"/>
+	<complexType name="AuditHeader">
+		<sequence>
+			<element name="audit-note" type="xs:string" minOccurs="0"/>
+			<element name="audit-origin" type="xs:string" minOccurs="0"/>
+			<element name="audit-transaction-name" type="xs:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="Note" type="common:Note"/>
+	<complexType name="Note">
+		<sequence>
+			<element name="author" type="xs:string" minOccurs="0"/>
+			<element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+			<element name="content" type="xs:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="Field" type="common:Field"/>
+	<complexType name="Field">
+		<sequence>
+			<element name="token" type="xs:string"/>
+		</sequence>
+	</complexType>
+	<element name="Table" type="common:Table"/>
+	<complexType name="Table">
+		<complexContent>
+			<extension base="common:Field">
+				<sequence>
+					<element name="columns" type="common:Column" nillable="true" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Column" type="common:Column"/>
+	<complexType name="Column">
+		<complexContent>
+			<extension base="common:Field">
+				<sequence>
+					<element name="values" type="xs:string" nillable="true" maxOccurs="unbounded"/>
+					<element name="dates" type="xs:dateTime" nillable="true" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="FieldMetaData" type="common:FieldMetaData"/>
+	<complexType name="FieldMetaData">
+		<sequence>
+			<element name="description" type="xs:string" minOccurs="0"/>
+			<element name="prompt" type="xs:string" minOccurs="0"/>
+			<element name="required" type="xs:boolean"/>
+			<element name="token" type="xs:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+</schema>

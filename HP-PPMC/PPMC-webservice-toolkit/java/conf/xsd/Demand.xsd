@@ -1,0 +1,87 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dm="http://mercury.com/ppm/dm/1.0" xmlns:common="http://mercury.com/ppm/common/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mercury.com/ppm/dm/1.0" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<import namespace="http://mercury.com/ppm/common/1.0" schemaLocation="../xsd/Common.xsd"/>
+	<element name="Request" type="dm:Request"/>
+	<complexType name="Request">
+		<sequence>
+			<element name="id" type="xs:string"  minOccurs="0"/>
+			<element name="requestType" type="xs:string" />
+			<element name="simpleFields" type="dm:SimpleField" nillable="true" maxOccurs="unbounded"/>
+            <element name="tables" type="common:Table" nillable="true" maxOccurs="unbounded"/>
+			<element name="notes" type="common:Note" nillable="true" maxOccurs="unbounded"/>
+			<element name="URLReferences" type="dm:URLReference" nillable="true" maxOccurs="unbounded"/>
+			<element name="remoteReferences" type="dm:RemoteReference" nillable="true" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<element name="Identifier" type="dm:Identifier"/>
+	<complexType name="Identifier">
+		<sequence>
+			<element name="id" type="xs:string" />
+			<element name="serverURL" type="xs:string"  minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="Reference" type="dm:Reference"/>
+	<complexType name="Reference">
+		<sequence>
+			<element name="addedBy" type="xs:string" minOccurs="0"/>
+			<element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+			<element name="description" type="xs:string" minOccurs="0"/>
+			<element name="name" type="xs:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<element name="RemoteReference" type="dm:RemoteReference"/>
+	<complexType name="RemoteReference">
+		<complexContent>
+			<extension base="dm:Reference">
+				<sequence>
+					<element name="displayURL" type="xs:string" minOccurs="0"/>
+					<element name="identifier" type="dm:Identifier" nillable="true"/>
+					<element name="status" type="xs:string" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="RequestRemoteReference" type="dm:RequestRemoteReference"/>
+	<complexType name="RequestRemoteReference">
+		<complexContent>
+			<extension base="dm:RemoteReference">
+				<sequence>
+					<element name="requestTypeName" type="xs:string" minOccurs="0"/>
+					<element name="relationType" type="xs:string" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="URLReference" type="dm:URLReference"/>
+	<complexType name="URLReference">
+		<complexContent>
+			<extension base="dm:Reference">
+				<sequence>
+					<element name="refURL" type="xs:string" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="SimpleField" type="dm:SimpleField"/>
+	<complexType name="SimpleField">
+		<complexContent>
+			<extension base="common:Field">
+				<sequence>
+					<element name="stringValue" type="xs:string" maxOccurs="unbounded"/>
+					<element name="dateValue" type="xs:dateTime" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="FieldChangeNote" type="dm:FieldChangeNote"/>
+	<complexType name="FieldChangeNote">
+		<complexContent>
+			<extension base="common:Note">
+				<sequence>
+					<element name="fieldPrompt" type="xs:string"/>
+					<element name="oldValue" type="xs:string"/>
+					<element name="newValue" type="xs:string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

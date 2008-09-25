@@ -1,0 +1,310 @@
+<wsdl:definitions xmlns:rmMsg="http://mercury.com/ppm/rm/msg/1.0"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:rs="http://mercury.com/ppm/rm/service/1.0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://mercury.com/ppm/rm/msg/1.0">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:rm="http://mercury.com/ppm/rm/1.0" 
+			attributeFormDefault="qualified" elementFormDefault="qualified"
+			targetNamespace="http://mercury.com/ppm/rm/service/1.0">
+			<xs:import namespace="http://mercury.com/ppm/rm/1.0" schemaLocation="../xsd/Resource.xsd"/>			
+			<!--  Create Resource Pools types  -->
+			<xs:element name="createResourcePools">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePool" nillable="true" type="rm:ResourcePool" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="createResourcePoolsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePoolRef" nillable="true" type="rm:ResourcePoolReference" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>			
+			<!--  Search Resource Pools types  -->
+			<xs:element name="searchResourcePools">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="filter" type="rm:ResourcePoolSearchFilter" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="searchResourcePoolsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePool" nillable="true" type="rm:ResourcePool" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>						
+			<!--  Get Resource Pools types  -->
+			<xs:element name="getResourcePools">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePoolId" nillable="true" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getResourcePoolsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePool" nillable="true" type="rm:ResourcePool" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>						
+			<!--  Update Resource Pools types  -->
+			<xs:element name="updateResourcePools">
+				<xs:complexType>
+					<xs:sequence> 
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="resourcePool" nillable="true" type="rm:ResourcePool" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="updateResourcePoolsResponse"/>
+			<!--  Get Resource Participation types  -->
+			<xs:element name="getResourceParticipation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="resource" nillable="true" type="rm:ResourceReference" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getResourceParticipationResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="resourceParticipation" nillable="true" type="rm:ResourceParticipation" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--  Set Resource Participation types  -->
+			<xs:element name="setResourceParticipation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="resourceParticipation" nillable="true" type="rm:ResourceParticipation" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setResourceParticipationResponse"/>
+		</xs:schema>
+	</wsdl:types>
+
+	
+	<!--  Create Resource Pools messages  -->	
+	<wsdl:message name="createResourcePoolsMessage">
+		<wsdl:part name="part1" element="rs:createResourcePools" />
+	</wsdl:message>
+	<wsdl:message name="createResourcePoolsResponseMessage">
+		<wsdl:part name="part1" element="rs:createResourcePoolsResponse" />
+	</wsdl:message>		
+	<!--  Search Resource Pools messages  -->	
+	<wsdl:message name="searchResourcePoolsMessage">
+		<wsdl:part name="part1" element="rs:searchResourcePools" />
+	</wsdl:message>
+	<wsdl:message name="searchResourcePoolsResponseMessage">
+		<wsdl:part name="part1" element="rs:searchResourcePoolsResponse" />
+	</wsdl:message>		
+	<!--  Get Resource Pools messages  -->	
+	<wsdl:message name="getResourcePoolsMessage">
+		<wsdl:part name="part1" element="rs:getResourcePools" />
+	</wsdl:message>
+	<wsdl:message name="getResourcePoolsResponseMessage">
+		<wsdl:part name="part1" element="rs:getResourcePoolsResponse" />
+	</wsdl:message>		
+	<!--  Update Resource Pools messages  -->	
+	<wsdl:message name="updateResourcePoolsMessage">
+		<wsdl:part name="part1" element="rs:updateResourcePools" />
+	</wsdl:message>
+	<wsdl:message name="updateResourcePoolsResponseMessage">
+		<wsdl:part name="part1" element="rs:updateResourcePoolsResponse" />
+	</wsdl:message>
+	<!--  Get Resource Participation messages  -->
+	<wsdl:message name="getResourceParticipationMessage">
+		<wsdl:part name="part1" element="rs:getResourceParticipation" />
+	</wsdl:message>
+	<wsdl:message name="getResourceParticipationResponseMessage">
+		<wsdl:part name="part1" element="rs:getResourceParticipationResponse" />
+	</wsdl:message>		
+	<!--  Set Resource Participation messages  -->
+	<wsdl:message name="setResourceParticipationMessage">
+		<wsdl:part name="part1" element="rs:setResourceParticipation" />
+	</wsdl:message>
+	<wsdl:message name="setResourceParticipationResponseMessage">
+		<wsdl:part name="part1" element="rs:setResourceParticipationResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="ResourceServicePortType">
+	    <!--  Create Resource Pools operation  -->	
+		<wsdl:operation name="createResourcePools">
+			<wsdl:input message="rmMsg:createResourcePoolsMessage" />
+			<wsdl:output message="rmMsg:createResourcePoolsResponseMessage" />
+		</wsdl:operation>
+	    <!--  Search Resource Pools operation  -->	
+		<wsdl:operation name="searchResourcePools">
+			<wsdl:input message="rmMsg:searchResourcePoolsMessage" />
+			<wsdl:output message="rmMsg:searchResourcePoolsResponseMessage" />
+		</wsdl:operation>
+	    <!--  Get Resource Pools operation  -->	
+		<wsdl:operation name="getResourcePools">
+			<wsdl:input message="rmMsg:getResourcePoolsMessage" />
+			<wsdl:output message="rmMsg:getResourcePoolsResponseMessage" />
+		</wsdl:operation>
+	    <!--  Update Resource Pools operation  -->	
+		<wsdl:operation name="updateResourcePools">
+			<wsdl:input message="rmMsg:updateResourcePoolsMessage" />
+			<wsdl:output message="rmMsg:updateResourcePoolsResponseMessage" />
+		</wsdl:operation>
+	    <!--  Get Resource Participation operation  -->
+		<wsdl:operation name="getResourceParticipation">
+			<wsdl:input message="rmMsg:getResourceParticipationMessage" />
+			<wsdl:output message="rmMsg:getResourceParticipationResponseMessage" />
+		</wsdl:operation>
+	    <!--  Set Resource Participation operation  -->
+		<wsdl:operation name="setResourceParticipation">
+			<wsdl:input message="rmMsg:setResourceParticipationMessage" />
+			<wsdl:output message="rmMsg:setResourceParticipationResponseMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ResourceServiceSOAP11Binding"
+		type="rmMsg:ResourceServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<!--  Create Resource Pools operation  -->			
+		<wsdl:operation name="createResourcePools">
+			<soap:operation soapAction="urn:createResourcePools" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Search Resource Pools operation  -->			
+		<wsdl:operation name="searchResourcePools">
+			<soap:operation soapAction="urn:searchResourcePools" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Resource Pools operation  -->			
+		<wsdl:operation name="getResourcePools">
+			<soap:operation soapAction="urn:getResourcePools" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Update Resource Pools operation  -->			
+		<wsdl:operation name="updateResourcePools">
+			<soap:operation soapAction="urn:updateResourcePools" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Resource Participation operation 	-->	
+		<wsdl:operation name="getResourceParticipation">
+			<soap:operation soapAction="urn:getResourceParticipation" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>	
+		<!--  Set Resource Participation operation  -->
+		<wsdl:operation name="setResourceParticipation">
+			<soap:operation soapAction="urn:setResourceParticipation" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>	
+	</wsdl:binding>
+
+	<wsdl:binding name="ResourceServiceSOAP12Binding" type="rmMsg:ResourceServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<!--  Create Resource Pools operation  -->		
+		<wsdl:operation name="createResourcePools"> 
+			<soap12:operation soapAction="urn:createResourcePools" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Search Resource Pools operation  -->		
+		<wsdl:operation name="searchResourcePools"> 
+			<soap12:operation soapAction="urn:searchResourcePools" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Resource Pools operation  -->		
+		<wsdl:operation name="getResourcePools"> 
+			<soap12:operation soapAction="urn:getResourcePools" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Update Resource Pools operation  -->		
+		<wsdl:operation name="updateResourcePools"> 
+			<soap12:operation soapAction="urn:updateResourcePools" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!--  Get Resource Participation operation 	-->
+		<wsdl:operation name="getResourceParticipation"> 
+			<soap12:operation soapAction="urn:getResourceParticipation" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>	
+		<!--  Set Resource Participation operation  -->
+		<wsdl:operation name="setResourceParticipation">
+			<soap12:operation soapAction="urn:setResourceParticipation" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" namespace="http://mercury.com/ppm/rm/msg/1.0" />
+			</wsdl:output>
+		</wsdl:operation>	
+	</wsdl:binding>
+	
+	<wsdl:service name="ResourceService">
+		<wsdl:port name="ResourceServiceSOAP11port"
+			binding="rmMsg:ResourceServiceSOAP11Binding">
+			<soap:address location="http://localhost:8080/itg/ppmservices/ResourceService" />
+		</wsdl:port>
+		<wsdl:port name="ResourceServiceSOAP12port"
+			binding="rmMsg:ResourceServiceSOAP12Binding">
+			<soap12:address location="http://localhost:8080/itg/ppmservices/ResourceService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

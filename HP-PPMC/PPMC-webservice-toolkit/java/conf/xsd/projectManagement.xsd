@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pm="http://www.mercury.com/ppm/pm/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mercury.com/ppm/pm/types" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<element name="projectCreationInput" type="pm:projectCreationInput"/>
+	
+	<complexType name="projectCreationInput">
+	    <xsd:complexContent>
+	        <xsd:extension base="pm:projectDetail">
+        		<sequence>
+        			<element name="projectName" type="xsd:string"/>
+        			<xsd:choice>
+        					<xsd:element name="projectTypeName" type="xsd:string"/>
+        					<xsd:element name="projectTypeId" type="xsd:long"/>
+        				</xsd:choice>
+        				<xsd:element name="projectManagerUserName" type="xsd:string" maxOccurs="unbounded"/>
+        				<xsd:element name="plannedStartPeriodFullName" type="xsd:string"/>
+        				<xsd:element name="plannedFinishPeriodFillName" type="xsd:string"/>
+        				<xsd:element name="regionName" type="xsd:string"/>
+        				<xsd:element name="pmReferences" type="pm:pmReference" minOccurs="0" maxOccurs="unbounded"/>
+        				<xsd:element name="reqNotes" type="pm:userNote" minOccurs="0" maxOccurs="unbounded"/>        			
+        		</sequence>			
+		</xsd:extension>
+		</xsd:complexContent>
+	</complexType>
+	
+	
+	<complexType name="projectUpdateType">
+		<complexContent>
+			<extension base="pm:projectDetail">
+				<sequence>
+					<group ref="pm:projectInputGroup"/>
+					<element name="projectManagerUserName" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="plannedStartPeriodFullName" type="xsd:string" minOccurs="0"/>
+					<element name="plannedFinishPeriodFullName" type="xsd:string" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="projectDetail">
+		<sequence>
+			<element name="staffingProfileName" type="xsd:string" minOccurs="0"/>
+			<element name="budgetName" type="xsd:string" minOccurs="0"/>
+			<element name="financialBenefitName" type="xsd:string" minOccurs="0"/>
+			<choice minOccurs="0" maxOccurs="unbounded">
+				<element name="simpleFields" type="pm:simpleFields" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="tableFields" type="pm:tableFields" minOccurs="0" maxOccurs="unbounded"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="workPlanInputType">
+		<sequence>
+			<choice>
+				<element name="projectName" type="xsd:string" minOccurs="0"/>
+				<element name="projectId" type="xsd:long" minOccurs="0"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="templateInputType">
+		<sequence>
+			<choice>
+				<element name="templateName" type="xsd:string" minOccurs="0"/>
+				<element name="templateId" type="xsd:long" minOccurs="0"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<element name="projectInput" type="pm:projectInputType"/>
+	<complexType name="projectInputType">
+		<sequence>
+			<group ref="pm:projectInputGroup"/>
+		</sequence>
+	</complexType>
+	<group name="projectInputGroup">
+		<sequence>
+			<choice>
+				<element name="projectName" type="xsd:string" minOccurs="0"/>
+				<element name="projectId" type="xsd:long" minOccurs="0"/>
+				<element name="requestId" type="xsd:integer" minOccurs="0"/>
+			</choice>
+		</sequence>
+	</group>
+	<element name="createProjectResult" type="pm:createProjectResultType"/>
+	<complexType name="createProjectResultType">
+		<sequence>
+			<element name="projectId" type="xsd:long"/>
+			<element name="requestId" type="xsd:integer"/>
+		</sequence>
+	</complexType>
+	<complexType name="addTaskResultType">
+		<sequence>
+			<element name="taskSequenceNumber" type="xsd:long"/>
+			<element name="taskId" type="xsd:long"/>
+		</sequence>
+	</complexType>
+	<complexType name="searchTaskPreferenceDetail">
+		<sequence>
+			<element name="projectId" type="xsd:long"/>
+			<element name="startSearchPosition">
+				<simpleType>
+					<restriction base="xs:integer">
+						<minInclusive value="1"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="maximumTasksToShow">
+				<simpleType>
+					<restriction base="xs:integer">
+						<minInclusive value="1"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="taskNamePrefix" type="xsd:string" minOccurs="0"/>
+			<element name="resourceUserName" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="includeFinishedTask" type="xsd:boolean" minOccurs="0"/>
+			<element name="showOnlyExceptionTask" type="xsd:boolean" minOccurs="0"/>
+			<element name="showOnlyMileStone" type="xsd:boolean" minOccurs="0"/>
+			<element name="scheduledStartFrom" type="xsd:dateTime" minOccurs="0"/>
+			<element name="scheduledStartTo" type="xsd:dateTime" minOccurs="0"/>
+			<element name="scheduledFinishFrom" type="xsd:dateTime" minOccurs="0"/>
+			<element name="scheduledFinishTo" type="xsd:dateTime" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="searchTaskOutput">
+		<sequence>
+			<element name="taskId" type="xsd:long"/>
+		</sequence>
+	</complexType>
+	
+	<xsd:complexType name="readTaskInput">
+		<xsd:sequence>
+			<xsd:element name="taskId" type="xsd:long"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="readTaskOutput">
+		<xsd:sequence>
+			<xsd:element name="task" type="pm:taskType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<complexType name="updateActualsInput">
+		<sequence>
+			<element name="taskId" type="xsd:long"/>
+			<element name="assignment" type="pm:assignmentInfo"/>
+		</sequence>
+	</complexType>
+	<element name="task" type="pm:taskType"/>
+	<complexType name="taskType">
+		<sequence>
+			<element name="taskName" type="xsd:string"/>
+			<element name="taskSequence" type="xsd:long"/>
+			<element name="outlineLevel" type="xsd:long"/>
+			<element name="taskStatus" minOccurs="0">
+				<simpleType>
+					<restriction base="xsd:string">
+						<enumeration value="in-progress"/>
+						<enumeration value="completed"/>
+						<enumeration value="in-planning"/>
+						<enumeration value="ready"/>
+						<enumeration value="on-hold"/>
+						<enumeration value="active"/>
+						<enumeration value="cancelled"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="description" type="xsd:string" minOccurs="0"/>
+			<element name="priority" type="xsd:string" minOccurs="0"/>
+			<element name="isMileStone" type="xsd:boolean" minOccurs="0"/>
+			<element name="isMajorMilestone" type="xsd:boolean" minOccurs="0"/>
+			<element name="isMilestoneAutomaticallyCompletes" type="xsd:boolean" minOccurs="0"/>
+			<element name="ismilestoneManualConversion" type="xsd:boolean" minOccurs="0"/>
+			<element name="activity" type="pm:activityType" minOccurs="0"/>
+			<element name="owner" type="pm:resourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<!--
+			<element name="assignment" type="pm:assignmentInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="schedule" type="pm:scheduleInfo" minOccurs="0"/>
+			<element name="actual" type="pm:actualInfo" minOccurs="0"/>
+			<element name="cost" type="pm:costInfo" minOccurs="0"/>
+			<element name="role" type="pm:roleInfo" minOccurs="0"/>
+			<element name="predecessor" type="pm:dependencyInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="skillProficiency" type="pm:skillProficiencyInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notificationSetup" type="pm:notificationSetupInfo" minOccurs="0"/>
+			<element name="userData" type="pm:userDataInfo" minOccurs="0"/>
+			<element name="note" type="pm:taskNoteInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="reference" type="pm:pmReference" minOccurs="0" maxOccurs="unbounded"/>
+-->
+		</sequence>
+	</complexType>
+	<complexType name="taskProperty">
+		<sequence/>
+	</complexType>
+	<complexType name="activityType">
+		<sequence>
+			<element name="activityId" type="xsd:long"/>
+			<element name="activityName" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<complexType name="resourceType">
+		<sequence>
+			<element name="resourceId" type="xsd:long"/>
+			<element name="firstName" type="xsd:string"/>
+			<element name="lastName" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<complexType name="scheduleInfo">
+		<sequence>
+			<element name="scheduledDuration" type="xsd:double"/>
+			<element name="scheduledEffort" type="xsd:double"/>
+			<element name="scheduledStart" type="xsd:dateTime"/>
+			<element name="scheduledFinish" type="xsd:dateTime"/>
+			<element name="constraintType">
+				<simpleType>
+					<restriction base="xsd:string">
+						<enumeration value="as-soon-as-possible"/>
+						<enumeration value="as-late-as-possible"/>
+						<enumeration value="start-no-earlier-than"/>
+						<enumeration value="start-no-later-than"/>
+						<enumeration value="finish-no-earlier-than"/>
+						<enumeration value="finish-no-later-than"/>
+						<enumeration value="must-start-on"/>
+						<enumeration value="must-finish-on"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="constraintDate" type="xsd:dateTime" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="actualInfo">
+		<sequence>
+			<element name="actualDuration" type="xsd:double" minOccurs="0"/>
+			<element name="percentComplete" type="xsd:double" minOccurs="0"/>
+			<element name="actualEffort" type="xsd:double" minOccurs="0"/>
+			<element name="estimatedRemainingEffort" type="xsd:double" minOccurs="0"/>
+			<element name="actualStart" type="xsd:dateTime" minOccurs="0"/>
+			<element name="estimatedFinish" type="xsd:dateTime" minOccurs="0"/>
+			<element name="actualFinish" type="xsd:dateTime" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="moneyInfo">
+		<sequence>
+			<element name="localValue" type="xsd:long"/>
+			<element name="localCurrencyCode" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<complexType name="costInfo">
+		<sequence>
+			<element name="actualCapLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="actualCapNonLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="actualOpLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="actualOpNonLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="plannedCapLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="plannedCapNonLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="plannedOpLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+			<element name="plannedOpNonLaborCost" type="pm:moneyInfo" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="roleInfo">
+		<sequence>
+			<element name="roleId" type="xsd:long"/>
+			<element name="roleName" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<complexType name="dependencyInfo">
+		<sequence>
+			<element name="predTaskId" type="xsd:long" minOccurs="0"/>
+			<element name="predTaskName" type="xsd:string" minOccurs="0"/>
+			<element name="predTaskSeq" type="xsd:long"/>
+			<element name="predRelationType">
+				<simpleType>
+					<restriction base="xsd:string">
+						<enumeration value="start-to-finish"/>
+						<enumeration value="finish-to-finish"/>
+						<enumeration value="start-to-start"/>
+						<enumeration value="finish-to-start"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="lagInDays" type="xsd:double" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="assignmentInfo">
+		<complexContent>
+			<extension base="pm:actualInfo">
+				<sequence>
+					<element name="scheduledEffort" type="xsd:double"/>
+					<element name="resource" type="pm:resourceType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="notificationSetupInfo">
+		<sequence>
+			<element name="isNotifyResourcesBeforeStart" type="xsd:boolean" minOccurs="0"/>
+			<element name="isNotifyResourcesIfLate" type="xsd:boolean" minOccurs="0"/>
+			<element name="isNotifyIfLate" type="xsd:boolean" minOccurs="0"/>
+			<element name="isNotifyOnMilestone" type="xsd:boolean" minOccurs="0"/>
+			<element name="isNotifyOnException" type="xsd:boolean" minOccurs="0"/>
+			<element name="notifyResourcesDaysBeforeStart" type="xsd:integer" minOccurs="0"/>
+			<element name="notifyResourcesIfLateFrequency" type="xsd:integer" minOccurs="0"/>
+			<element name="notifyIfLateByDays" type="xsd:integer" minOccurs="0"/>
+			<element name="notifyIfLateFrequency" type="xsd:integer" minOccurs="0"/>
+			<element name="lateParticipants" type="pm:participantInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="lateResources" type="pm:resourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="LateSecurityGroups" type="pm:securityGroupInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnMilestoneParticipants" type="pm:participantInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnMilestoneResources" type="pm:resourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnMilestoneSecurityGroups" type="pm:securityGroupInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnExceptionParticipants" type="pm:participantInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnExceptionResources" type="pm:resourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="notifyOnExceptionSecurityGroups" type="pm:securityGroupInfo" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="participantInfo">
+		<sequence>
+			<element name="participantType">
+				<simpleType>
+					<restriction base="xsd:string">
+						<enumeration value="StakeHolders"/>
+						<enumeration value="ProjectManagers"/>
+						<enumeration value="SummaryTaskOwners"/>
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="securityGroupInfo">
+		<sequence>
+			<element name="groupId" type="xsd:long"/>
+			<element name="groupName" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<complexType name="userDataInfo">
+		<sequence>
+			<element name="userData1" type="xsd:string" minOccurs="0"/>
+			<element name="userData2" type="xsd:string" minOccurs="0"/>
+			<element name="userData3" type="xsd:string" minOccurs="0"/>
+			<element name="userData4" type="xsd:string" minOccurs="0"/>
+			<element name="userData5" type="xsd:string" minOccurs="0"/>
+			<element name="userData6" type="xsd:string" minOccurs="0"/>
+			<element name="userData7" type="xsd:string" minOccurs="0"/>
+			<element name="userData8" type="xsd:string" minOccurs="0"/>
+			<element name="userData9" type="xsd:string" minOccurs="0"/>
+			<element name="userData10" type="xsd:string" minOccurs="0"/>
+			<element name="userData11" type="xsd:string" minOccurs="0"/>
+			<element name="userData12" type="xsd:string" minOccurs="0"/>
+			<element name="userData13" type="xsd:string" minOccurs="0"/>
+			<element name="userData14" type="xsd:string" minOccurs="0"/>
+			<element name="userData15" type="xsd:string" minOccurs="0"/>
+			<element name="userData16" type="xsd:string" minOccurs="0"/>
+			<element name="userData17" type="xsd:string" minOccurs="0"/>
+			<element name="userData18" type="xsd:string" minOccurs="0"/>
+			<element name="userData19" type="xsd:string" minOccurs="0"/>
+			<element name="userData20" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData1" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData2" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData3" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData4" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData5" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData6" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData7" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData8" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData9" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData10" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData11" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData12" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData13" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData14" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData15" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData16" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData17" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData18" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData19" type="xsd:string" minOccurs="0"/>
+			<element name="visUserData20" type="xsd:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="skillProficiencyInfo">
+		<sequence>
+			<element name="proficiencyLevel" type="xsd:integer"/>
+			<element name="skillId" type="xsd:long"/>
+		</sequence>
+	</complexType>
+	<element name="anchor" type="pm:anchorType"/>
+	<complexType name="anchorType">
+		<sequence>
+			<element name="taskSequeceNumber" type="xsd:integer"/>
+			<element name="taskId" type="xsd:long"/>
+			<element name="outLineLevel" type="xsd:long"/>
+		</sequence>
+	</complexType>
+	<complexType name="taskNoteInfo">
+		<sequence>
+			<element name="noteText" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<element name="pmReference" type="pm:pmReference"/>
+	<complexType name="pmReference">
+		<sequence>
+			<element name="targetTypeCode" type="xsd:integer"/>
+			<!-- element name="relBehaviorCode" type="xsd:string" -->	
+			<element name="relBehaviorCode">			          
+				<simpleType>
+					<restriction base="xsd:string">
+						<enumeration value="INFORMATIONAL"/>
+						<enumeration value="SUCCESSOR"/>
+						<enumeration value="PREDECESSOR"/>
+						<enumeration value="FF_PREDECESSOR"/>
+						<enumeration value="AUTO_UPDATE"/>
+						<enumeration value="UPDATED_BY_STEP"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="targetId" type="xsd:integer"/>
+			<element name="refRelationshipId" type="xsd:integer"/>
+			<element name="referenceName" type="xsd:string"/>
+			<element name="refDescirption" type="xsd:string"/>
+			<element name="refFileName" type="xsd:string"/>
+			<!--targetId can be null for url and attachment -->
+			<!--For url reference, uri is stored in referenceName -->
+			<!--For file attachment, filename is stored in referenceName -->
+			<!--For other reeference which doesn't have a name, id is stored in referenceName -->
+			<!-- refFileName only applies to attachment -->
+		</sequence>
+	</complexType>
+	<!-- The following are DM related data types -->
+	<element name="field" type="pm:field"/>
+	<!-- complexType name="field" abstract="true" -->
+	<complexType name="field">
+		<sequence>
+			<element name="token" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<element name="simpleFields" type="pm:simpleFields"/>
+	<complexType name="simpleFields">
+		<complexContent>
+			<extension base="pm:field">
+				<choice maxOccurs="unbounded">
+					<element name="stringValue" type="xsd:string" maxOccurs="unbounded"/>
+					<element name="dateValue" type="xsd:dateTime"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="tableFields" type="pm:tableFields"/>
+	<complexType name="tableFields">
+		<complexContent>
+			<extension base="pm:field">
+				<sequence>
+					<element name="tableColumns" type="pm:tableColumns" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="tableColumns" type="pm:tableColumns"/>
+	<complexType name="tableColumns">
+		<sequence>
+			<element name="token" type="xsd:string"/>
+			<choice maxOccurs="unbounded">
+				<element name="stringValues" type="xsd:string" maxOccurs="unbounded"/>
+				<element name="dateValues" type="xsd:dateTime" maxOccurs="unbounded"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<element name="reqNote" type="pm:reqNote"/>
+	<complexType name="reqNote" abstract="true">
+		<sequence>
+			<element name="creationDate" type="xsd:dateTime"/>
+			<element name="content" type="xsd:string"/>
+			<element name="addedBy" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<element name="userNote" type="pm:userNote"/>
+	<complexType name="userNote">
+		<complexContent>
+			<extension base="pm:reqNote">
+				<sequence/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="fieldChangeNote" type="pm:fieldChangeNote"/>
+	<complexType name="fieldChangeNote">
+		<complexContent>
+			<extension base="pm:reqNote">
+				<sequence>
+					<element name="fieldPrompt" type="xsd:string"/>
+					<element name="oldValue" type="xsd:string"/>
+					<element name="newValue" type="xsd:string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

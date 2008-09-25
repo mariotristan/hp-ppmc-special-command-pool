@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:fm="http://mercury.com/ppm/fm/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mercury.com/ppm/fm/1.0" elementFormDefault="qualified" attributeFormDefault="qualified">
+
+	<!--  CostRule  -->
+	<xs:element name="CostRule" type="fm:CostRule"/>
+	<xs:complexType name="CostRule">
+		<xs:sequence>
+			<xs:element name="id" nillable="true" type="xs:long"/>
+			<xs:element name="ruleNumber" nillable="true" type="xs:integer"/>
+			<xs:element name="rate" type="fm:CostRate" minOccurs="1" maxOccurs="unbounded"/>			
+			<xs:element name="factor" nillable="true" type="fm:CostFactorValue" minOccurs="0" maxOccurs="unbounded"/>			
+		</xs:sequence>
+	</xs:complexType>	
+
+	<!--  CostRate  -->
+	<xs:element name="CostRate" type="fm:CostRate"/>
+	<xs:complexType name="CostRate">
+		<xs:sequence>
+			<xs:element name="startDate" nillable="true" type="xs:dateTime"/>
+			<xs:element name="endDate" nillable="true" type="xs:dateTime"/>
+			<xs:element name="currencyCode" type="xs:string"/>
+			<xs:element name="rate" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>	
+
+	<!--  CostFactorValue  -->
+	<xs:element name="CostFactorValue" type="fm:CostFactorValue"/>
+	<xs:complexType name="CostFactorValue">
+		<xs:sequence>
+			<xs:element name="factor" type="xs:string"/>
+			<xs:element name="id" nillable="true" type="xs:string"/>
+			<xs:element name="name" nillable="true" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>	
+
+	<!--  CostFactor  -->
+	<xs:element name="CostFactor" type="fm:CostFactor"/>
+	<xs:complexType name="CostFactor">
+		<xs:sequence>
+			<xs:element name="factor" type="xs:string"/>
+			<xs:element name="sortOrder" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  CostRuleSearchFilter  -->
+	<xs:element name="CostRuleSearchFilter" type="fm:CostRuleSearchFilter"/>
+	<xs:complexType name="CostRuleSearchFilter">
+		<xs:sequence>
+			<xs:element name="effectiveStartDate" nillable="true" type="xs:dateTime"/>
+			<xs:element name="effectiveEndDate" nillable="true" type="xs:dateTime"/>
+			<xs:element name="factor" nillable="true" type="fm:CostFactorValue" minOccurs="0" maxOccurs="unbounded"/>			
+		</xs:sequence>
+	</xs:complexType>
+
+</schema>
+

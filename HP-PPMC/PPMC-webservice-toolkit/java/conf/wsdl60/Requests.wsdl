@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://mercury.com/itg/dm/1.0"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:types="http://mercury.com/itg/dm/1.0/types"
+	xmlns:intf="http://mercury.com/itg/dm/1.0"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:apachesoap="http://xml.apache.org/xml-soap"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<schema targetNamespace="http://mercury.com/itg/dm/1.0/types"
+			xmlns="http://www.w3.org/2001/XMLSchema">
+			<import
+				namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="Value" abstract="true">
+				<sequence />
+			</complexType>
+			<complexType name="RequestHeader">
+				<sequence>
+					<element name="auditNote" nillable="false"
+						type="xsd:string" />
+					<element name="origin" nillable="false"
+						type="xsd:string" />
+					<element name="transactionName" nillable="false"
+						type="xsd:string" />
+					<element name="credentials" nillable="false"
+						type="types:Credentials" />
+				</sequence>
+			</complexType>
+			<complexType name="Credentials" abstract="true">
+				<sequence />
+			</complexType>
+			<complexType name="LoginAccount">
+				<complexContent>
+					<extension base="types:Credentials">
+						<sequence>
+							<element name="username" nillable="false"
+								type="xsd:string" />
+							<element name="password" nillable="false"
+								type="xsd:string" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="ProcessingError">
+				<sequence>
+					<element name="errors" nillable="false"
+						type="types:ArrayOf_types_ErrorMessage" />
+					<element name="message" nillable="false"
+						type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="Field">
+				<sequence>
+					<element name="token" nillable="false"
+						type="xsd:string" />
+					<element name="value" nillable="false"
+						type="types:Value" />
+				</sequence>
+			</complexType>
+			<complexType name="Reference" abstract="true">
+				<sequence>
+					<element name="creationDate" nillable="true"
+						type="xsd:dateTime" />
+					<element name="name" nillable="true"
+						type="xsd:string" />
+					<element name="description" nillable="true"
+						type="xsd:string" />
+					<element name="addedBy" nillable="true"
+						type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="Note" abstract="true">
+				<sequence>
+					<element name="creationDate" nillable="true"
+						type="xsd:dateTime" />
+					<element name="content" nillable="false"
+						type="xsd:string" />
+					<element name="addedBy" nillable="true"
+						type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="Request">
+				<sequence>
+					<element name="fields" nillable="false"
+						type="types:ArrayOf_types_Field" />
+					<element name="references" nillable="true"
+						type="types:ArrayOf_types_Reference" />
+					<element name="notes" nillable="true"
+						type="types:ArrayOf_types_Note" />
+				</sequence>
+			</complexType>
+			<complexType name="ErrorMessage">
+				<sequence>
+					<element name="code" nillable="true" type="xsd:int" />
+					<element name="message" nillable="true"
+						type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="Response">
+				<sequence>
+					<element name="references" nillable="true"
+						type="types:ArrayOf_types_Reference" />
+				</sequence>
+			</complexType>
+			<complexType name="Identifier">
+				<sequence>
+					<element name="serverURL" nillable="false"
+						type="xsd:anyURI" />
+					<element name="id" nillable="false"
+						type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="FieldMetaData">
+				<sequence>
+					<element name="prompt" nillable="false"	type="xsd:string" />
+					<element name="token" nillable="false"	type="xsd:string" />
+					<element name="required" nillable="false"	type="xsd:boolean" />
+					<element name="description" nillable="false" type="xsd:string" />
+					<element name="fieldType" nillable="false" type="xsd:string" />
+					<element name="listName" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+			<complexType name="SingleValue">
+				<complexContent>
+					<extension base="types:Value">
+						<sequence>
+							<element name="tokenValue" nillable="true"
+								type="xsd:string" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="MultipleValues">
+				<complexContent>
+					<extension base="types:Value">
+						<sequence>
+							<element name="values" nillable="true"
+								type="types:ArrayOf_xsd_string" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="DateValue">
+				<complexContent>
+					<extension base="types:Value">
+						<sequence>
+							<element name="date" nillable="true"
+								type="xsd:dateTime" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="Table">
+				<complexContent>
+					<extension base="types:Value">
+						<sequence>
+							<element name="tokens" nillable="false"
+								type="types:ArrayOf_xsd_string" />
+							<element name="rows" nillable="false"
+								type="types:ArrayOf_types_TableRow" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="URLReference">
+				<complexContent>
+					<extension base="types:Reference">
+						<sequence>
+							<element name="URL" nillable="false"
+								type="xsd:anyURI" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="RemoteReference">
+				<complexContent>
+					<extension base="types:Reference">
+						<sequence>
+							<element name="status" nillable="false"
+								type="xsd:string" />
+							<element name="displayURL" nillable="true"
+								type="xsd:anyURI" />
+							<element name="identifier" nillable="false"
+								type="types:Identifier" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="UserNote">
+				<complexContent>
+					<extension base="types:Note">
+						<sequence />
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="FieldChangeNote">
+				<complexContent>
+					<extension base="types:Note">
+						<sequence>
+							<element name="fieldPrompt" nillable="false"
+								type="xsd:string" />
+							<element name="oldValue" nillable="false"
+								type="xsd:string" />
+							<element name="newValue" nillable="false"
+								type="xsd:string" />
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_Field">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:Field[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="TableRow">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:Value[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_TableRow">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:TableRow[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+
+			<complexType name="ArrayOf_xsd_string">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="xsd:string[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_Reference">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:Reference[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_Note">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:Note[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_FieldMetaData">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:FieldMetaData[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_types_ErrorMessage">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType"
+							wsdl:arrayType="types:ErrorMessage[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+
+			<complexType name="mapItem">
+			    <sequence>
+				<element name="key" nillable="true" type="xsd:anyType"/>
+				<element name="value" nillable="true" type="xsd:anyType"/>
+			    </sequence>
+		       </complexType>
+
+		       <complexType name="Map">
+			   <sequence>
+				  <element maxOccurs="unbounded" minOccurs="0" name="item" type="types:mapItem"/>
+			   </sequence>
+		       </complexType>
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="importRequestRequest">
+		<wsdl:part name="header" type="types:RequestHeader" />
+		<wsdl:part name="request" type="types:Request" />
+	</wsdl:message>
+
+	<wsdl:message name="importRequestResponse">
+		<wsdl:part name="importRequestReturn" type="types:Response" />
+	</wsdl:message>
+
+	<wsdl:message name="updateRemoteReferenceResponse">
+		<wsdl:part name="updateRemoteReferenceReturn" type="xsd:int" />
+	</wsdl:message>
+
+	<wsdl:message name="ProcessingErrorFault">
+		<wsdl:part name="fault" type="types:ProcessingError" />
+	</wsdl:message>
+
+	<wsdl:message name="updateRemoteReferenceRequest">
+		<wsdl:part name="header" type="types:RequestHeader" />
+		<wsdl:part name="receiver" type="types:Identifier" />
+		<wsdl:part name="source" type="types:Identifier" />
+		<wsdl:part name="newStatus" type="xsd:string" />
+		<wsdl:part name="fields" type="types:ArrayOf_types_Field" />
+	</wsdl:message>
+
+	<wsdl:message name="getRequestTypesByFieldGroupRequest">
+		<wsdl:part name="header" type="types:RequestHeader" />
+		<wsdl:part name="fieldGroup" type="xsd:string" />
+	</wsdl:message>
+
+	<wsdl:message name="getRequestTypesByFieldGroupResponse">
+		<wsdl:part name="getRequestTypesByFieldGroupReturn"
+			type="types:ArrayOf_xsd_string" />
+	</wsdl:message>
+
+	<wsdl:message name="getRequestTypeFieldsRequest">
+		<wsdl:part name="header" type="types:RequestHeader" />
+		<wsdl:part name="requestType" type="xsd:string" />
+	</wsdl:message>
+
+	<wsdl:message name="getRequestTypeFieldsResponse">
+		<wsdl:part name="getRequestTypeFieldsReturn"
+			type="types:ArrayOf_types_FieldMetaData" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteRequestsRequest">
+		<wsdl:part name="header" type="types:RequestHeader" />
+		<wsdl:part name="requestIDs" type="types:ArrayOf_xsd_string" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteRequestsResponse">
+		<wsdl:part name="deleteRequestsReturn" type="xsd:int" />
+	</wsdl:message>
+
+
+	<wsdl:portType name="RequestServices">
+		<wsdl:operation name="importRequest"
+			parameterOrder="header request">
+			<wsdl:input message="intf:importRequestRequest"
+				name="importRequestRequest" />
+			<wsdl:output message="intf:importRequestResponse"
+				name="importRequestResponse" />
+			<wsdl:fault message="intf:ProcessingErrorFault"
+				name="ProcessingErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="updateRemoteReference"
+			parameterOrder="header receiver source newStatus fields">
+			<wsdl:input message="intf:updateRemoteReferenceRequest"
+				name="updateRemoteReferenceRequest" />
+			<wsdl:output message="intf:updateRemoteReferenceResponse"
+				name="updateRemoteReferenceResponse" />
+			<wsdl:fault message="intf:ProcessingErrorFault"
+				name="ProcessingErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getRequestTypesByFieldGroup"
+			parameterOrder="header fieldGroup">
+			<wsdl:input
+				message="intf:getRequestTypesByFieldGroupRequest"
+				name="getRequestTypesByFieldGroupRequest" />
+			<wsdl:output
+				message="intf:getRequestTypesByFieldGroupResponse"
+				name="getRequestTypesByFieldGroupResponse" />
+			<wsdl:fault message="intf:ProcessingErrorFault"
+				name="ProcessingErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getRequestTypeFields"
+			parameterOrder="header requestType">
+			<wsdl:input message="intf:getRequestTypeFieldsRequest"
+				name="getRequestTypeFieldsRequest" />
+			<wsdl:output message="intf:getRequestTypeFieldsResponse"
+				name="getRequestTypeFieldsResponse" />
+			<wsdl:fault message="intf:ProcessingErrorFault"
+				name="ProcessingErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteRequests"
+			parameterOrder="header requestIDs">
+			<wsdl:input message="intf:deleteRequestsRequest"
+				name="deleteRequestsRequest" />
+			<wsdl:output message="intf:deleteRequestsResponse"
+				name="deleteRequestsResponse" />
+			<wsdl:fault message="intf:ProcessingErrorFault"
+				name="ProcessingErrorFault" />
+		</wsdl:operation>
+
+		
+	</wsdl:portType>
+
+	<wsdl:binding name="RequestSoapBinding"
+		type="intf:RequestServices">
+		<wsdlsoap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="importRequest">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="importRequestRequest">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="importRequestResponse">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingErrorFault">
+				<wsdlsoap:fault name="ProcessingErrorFault"
+					use="encoded" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="updateRemoteReference">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="updateRemoteReferenceRequest">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="updateRemoteReferenceResponse">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingErrorFault">
+				<wsdlsoap:fault name="ProcessingErrorFault"
+					use="encoded" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="getRequestTypesByFieldGroup">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getRequestTypesByFieldGroupRequest">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getRequestTypesByFieldGroupResponse">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingErrorFault">
+				<wsdlsoap:fault name="ProcessingErrorFault"
+					use="encoded" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="getRequestTypeFields">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getRequestTypeFieldsRequest">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="getRequestTypeFieldsResponse">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingErrorFault">
+				<wsdlsoap:fault name="ProcessingErrorFault"
+					use="encoded" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteRequests">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="deleteRequestsRequest">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:input>
+			<wsdl:output name="deleteRequestsResponse">
+				<wsdlsoap:body
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://mercury.com/itg/dm/1.0" use="encoded" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingErrorFault">
+				<wsdlsoap:fault name="ProcessingErrorFault"
+					use="encoded" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="RequestServicesService">
+		<wsdl:port binding="intf:RequestSoapBinding" name="Request">
+			<wsdlsoap:address
+				location="http://localhost:8080/itg/services/Request" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

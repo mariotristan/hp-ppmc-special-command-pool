@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:common="http://mercury.com/ppm/common/1.0" xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://mercury.com/ppm/common/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AuditHeader" type="common:AuditHeader" />
+  <xs:complexType name="AuditHeader">
+    <xs:sequence>
+      <xs:element name="audit-note" nillable="true" type="xs:string" />
+      <xs:element name="audit-origin" nillable="true" type="xs:string" />
+      <xs:element name="audit-transaction-name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Note" type="common:Note" />
+  <xs:complexType name="Note">
+    <xs:sequence>
+      <xs:element name="author" nillable="true" type="xs:string" />
+      <xs:element name="creationDate" nillable="true" type="xs:dateTime" />
+      <xs:element name="content" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Field" type="common:Field" />
+  <xs:complexType name="Field">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Table" type="common:Table" />
+  <xs:complexType name="Table">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Field">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="columns" nillable="true" type="common:Column" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Column" type="common:Column" />
+  <xs:complexType name="Column">
+    <xs:complexContent mixed="false">
+      <xs:extension base="common:Field">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="values" nillable="true" type="xs:string" />
+          <xs:element maxOccurs="unbounded" name="dates" nillable="true" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FieldMetaData" type="common:FieldMetaData" />
+  <xs:complexType name="FieldMetaData">
+    <xs:sequence>
+      <xs:element name="description" nillable="true" type="xs:string" />
+      <xs:element name="prompt" nillable="true" type="xs:string" />
+      <xs:element name="required" type="xs:boolean" />
+      <xs:element name="token" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
