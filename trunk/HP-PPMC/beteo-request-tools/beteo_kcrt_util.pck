@@ -276,7 +276,7 @@
                        ,p_prop_plan_start_period_name  kcrt_fg_pfm_proposal_int.prop_plan_start_period_name%type default null
                        ,p_prop_plan_finish_period_name kcrt_fg_pfm_proposal_int.prop_plan_finish_period_name%type default null)
       return number;
-  
+
     function set_fg_pfm_project_fields(p_request_handle               t_request_handle
                       ,p_project_name                 kcrt_fg_pfm_project_int.project_name%type default null
                       ,p_project_health_code          kcrt_fg_pfm_project_int.project_health_code%type default null
@@ -506,7 +506,7 @@
                                   p_from_step_number     kwfl_transactions_int.workflow_step_seq%type,
                                   p_from_step_name       kwfl_transactions_int.workflow_step_name%type,
                                   p_to_step_number     kwfl_transactions_int.workflow_step_seq%type,
-                                  p_to_step_name       kwfl_transactions_int.workflow_step_name%type,                                  
+                                  p_to_step_name       kwfl_transactions_int.workflow_step_name%type,
                                   p_visible_result_value kwfl_step_transactions.visible_result_value%type,
                                   p_user_comment         varchar2 default null)
     return number;
@@ -1473,7 +1473,7 @@ CREATE OR REPLACE PACKAGE BODY "PPMC1"."BETEO_KCRT_UTIL" is
         dbms_output.put_line('ERROR: SQLMSG  = ' || sqlerrm);
         return BETEO_ERROR;
     end set_fg_pfm_proposal_fields;
-  
+
     function set_fg_pfm_project_fields(p_request_handle               t_request_handle
                       ,p_project_name                 kcrt_fg_pfm_project_int.project_name%type default null
                       ,p_project_health_code          kcrt_fg_pfm_project_int.project_health_code%type default null
@@ -2162,7 +2162,7 @@ CREATE OR REPLACE PACKAGE BODY "PPMC1"."BETEO_KCRT_UTIL" is
        and parameter1 = p_to_request_id
        and (ref.ref_relationship_id = p_ref_relationship_id or
            p_ref_relationship_id is null);
-  
+
     -- Delete reference
     knta_references_th.Process_Row(p_event            => 'DELETE',
                                    p_reference_id     => l_reference_id,
